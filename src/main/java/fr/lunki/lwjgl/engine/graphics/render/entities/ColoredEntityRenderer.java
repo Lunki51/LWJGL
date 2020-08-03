@@ -2,8 +2,10 @@ package fr.lunki.lwjgl.engine.graphics.render.entities;
 
 import fr.lunki.lwjgl.Main;
 import fr.lunki.lwjgl.engine.graphics.Shader;
+import fr.lunki.lwjgl.engine.graphics.meshes.ColoredMesh;
 import fr.lunki.lwjgl.engine.graphics.meshes.RawMesh;
 import fr.lunki.lwjgl.engine.maths.Matrix4f;
+import fr.lunki.lwjgl.engine.objects.gameobjects.ColoredObject;
 import fr.lunki.lwjgl.engine.objects.gameobjects.GameObject;
 import fr.lunki.lwjgl.engine.objects.Light;
 import fr.lunki.lwjgl.engine.objects.player.Camera;
@@ -13,7 +15,7 @@ import java.util.ArrayList;
 
 import static org.lwjgl.opengl.GL30.*;
 
-public class ColoredEntityRenderer extends EntityRenderer{
+public class ColoredEntityRenderer extends EntityRenderer<ColoredMesh,ColoredObject>{
 
     public ColoredEntityRenderer() {
         super(Main.window, new Shader("shaders/colorVertex.glsl","shaders/colorFragment.glsl"));
@@ -39,7 +41,7 @@ public class ColoredEntityRenderer extends EntityRenderer{
     }
 
     @Override
-    protected void render(GameObject toRender) {
+    protected void render(ColoredObject toRender) {
         shader.setUniform("model", Matrix4f.transform(toRender.getPosition(), toRender.getRotation(), toRender.getScale()));
     }
 

@@ -2,10 +2,12 @@ package fr.lunki.lwjgl.engine.graphics.render.entities;
 
 import fr.lunki.lwjgl.Main;
 import fr.lunki.lwjgl.engine.graphics.Shader;
+import fr.lunki.lwjgl.engine.graphics.meshes.NormalMesh;
 import fr.lunki.lwjgl.engine.graphics.meshes.RawMesh;
 import fr.lunki.lwjgl.engine.maths.Matrix4f;
 import fr.lunki.lwjgl.engine.objects.gameobjects.GameObject;
 import fr.lunki.lwjgl.engine.objects.Light;
+import fr.lunki.lwjgl.engine.objects.gameobjects.NormalObject;
 import fr.lunki.lwjgl.engine.objects.player.Camera;
 import org.lwjgl.opengl.GL15;
 
@@ -15,7 +17,7 @@ import static org.lwjgl.opengl.GL15.glBindBuffer;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
-public class NormalEntityRenderer extends EntityRenderer{
+public class NormalEntityRenderer extends EntityRenderer<NormalMesh,NormalObject> {
     public NormalEntityRenderer() {
         super(Main.window, new Shader("shaders/normalVertex.glsl","shaders/normalFragment.glsl"));
     }
@@ -37,7 +39,7 @@ public class NormalEntityRenderer extends EntityRenderer{
     }
 
     @Override
-    protected void render(GameObject toRender) {
+    protected void render(NormalObject toRender) {
         shader.setUniform("model", Matrix4f.transform(toRender.getPosition(), toRender.getRotation(), toRender.getScale()));
     }
 

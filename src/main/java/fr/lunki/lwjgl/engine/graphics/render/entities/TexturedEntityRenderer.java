@@ -7,6 +7,7 @@ import fr.lunki.lwjgl.engine.graphics.meshes.TexturedMesh;
 import fr.lunki.lwjgl.engine.maths.Matrix4f;
 import fr.lunki.lwjgl.engine.objects.gameobjects.GameObject;
 import fr.lunki.lwjgl.engine.objects.Light;
+import fr.lunki.lwjgl.engine.objects.gameobjects.TexturedGameObject;
 import fr.lunki.lwjgl.engine.objects.player.Camera;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL15;
@@ -21,7 +22,7 @@ import static org.lwjgl.opengl.GL15.glBindBuffer;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
-public class TexturedEntityRenderer extends EntityRenderer{
+public class TexturedEntityRenderer extends EntityRenderer<TexturedMesh,TexturedGameObject> {
     public TexturedEntityRenderer() {
         super(Main.window, new Shader("shaders/texturedVertex.glsl","shaders/texturedFragment.glsl"));
     }
@@ -54,7 +55,7 @@ public class TexturedEntityRenderer extends EntityRenderer{
     }
 
     @Override
-    protected void render(GameObject toRender) {
+    protected void render(TexturedGameObject toRender) {
         shader.setUniform("model", Matrix4f.transform(toRender.getPosition(), toRender.getRotation(), toRender.getScale()));
     }
 

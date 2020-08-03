@@ -2,8 +2,11 @@ package fr.lunki.lwjgl.engine.graphics.render.environment;
 
 import fr.lunki.lwjgl.Main;
 import fr.lunki.lwjgl.engine.graphics.Shader;
+import fr.lunki.lwjgl.engine.graphics.meshes.RawMesh;
 import fr.lunki.lwjgl.engine.graphics.meshes.TexturedMesh;
+import fr.lunki.lwjgl.engine.graphics.render.MeshRenderer;
 import fr.lunki.lwjgl.engine.graphics.render.Renderer;
+import fr.lunki.lwjgl.engine.graphics.render.entities.EntityRenderer;
 import fr.lunki.lwjgl.engine.io.Window;
 import fr.lunki.lwjgl.engine.maths.Matrix4f;
 import fr.lunki.lwjgl.engine.maths.Vector3f;
@@ -17,22 +20,27 @@ import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL30;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public class TerrainRenderer extends Renderer<Terrain> {
+public class TerrainRenderer extends MeshRenderer<RawMesh,Terrain> {
     public TerrainRenderer() {
         super(Main.window , new Shader("shaders/terrainVertex.glsl","shaders/terrainFragment.glsl"));
     }
 
-    public void renderTerrain(ArrayList<Terrain> terrains, Camera camera, ArrayList<Light> lights){
+    public void renderTerrain(HashMap<TexturedMesh,ArrayList<Terrain>> terrainsToRender, Camera camera, ArrayList<Light> lights){
         shader.bind();
         ArrayList<Light> lightsToRender = prepareLights(lights);
 
-        for(Terrain terrain : terrains){
-            prepareTerrain(terrain.getMesh(),camera,lightsToRender,terrain);
-            render(terrain);
+        for(TexturedMesh mesh : terrainsToRender.keySet()){
+            prepareTerrain(mesh,camera,lightsToRender);
+            for(Terrain terrain : terrainsToRender.get(mesh)){
+                bindTextures(terrain);
+                render(terrain);
+            }
+
         }
         shader.unbind();
     }
@@ -54,7 +62,7 @@ public class TerrainRenderer extends Renderer<Terrain> {
         shader.setUniform("blendMap",4);
     }
 
-    protected void prepareTerrain(TexturedMesh mesh, Camera camera, ArrayList<Light> lights, Terrain terrain) {
+    protected void prepareTerrain(TexturedMesh mesh, Camera camera, ArrayList<Light> lights) {
         GL30.glBindVertexArray(mesh.getVAO());
         GL30.glEnableVertexAttribArray(0);
         GL30.glEnableVertexAttribArray(1);
@@ -62,7 +70,6 @@ public class TerrainRenderer extends Renderer<Terrain> {
         GL30.glEnableVertexAttribArray(3);
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, mesh.getIBO());
         create();
-        bindTextures(terrain);
         shader.setUniform("shineDamper", mesh.getMaterial().getShininess());
         shader.setUniform("reflectivity", mesh.getMaterial().getReflectivity());
         shader.setUniform("view", Matrix4f.view(camera.getPosition(), camera.getRotation()));

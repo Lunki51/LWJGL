@@ -12,8 +12,8 @@ public abstract class Playable extends TexturedGameObject {
     protected Vector3f currentRotation;
     protected boolean isCrouching;
 
-    public Playable(Vector3f position, Vector3f rotation, Vector3f scale, TexturedMesh[] meshes) {
-        super(position, rotation, scale, meshes);
+    public Playable(Vector3f position, Vector3f rotation, Vector3f scale, TexturedMesh mesh) {
+        super(position, rotation, scale, mesh);
         currentSpeed = new Vector3f(0,0,0);
         currentRotation = rotation;
     }

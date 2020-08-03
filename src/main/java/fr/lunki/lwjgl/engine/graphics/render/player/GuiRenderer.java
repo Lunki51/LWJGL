@@ -3,12 +3,15 @@ package fr.lunki.lwjgl.engine.graphics.render.player;
 import fr.lunki.lwjgl.Main;
 import fr.lunki.lwjgl.engine.graphics.Shader;
 import fr.lunki.lwjgl.engine.graphics.gui.GuiTexture;
+import fr.lunki.lwjgl.engine.graphics.material.Material;
 import fr.lunki.lwjgl.engine.graphics.meshes.RawMesh;
 import fr.lunki.lwjgl.engine.graphics.render.Renderer;
 import fr.lunki.lwjgl.engine.maths.Matrix4f;
 import fr.lunki.lwjgl.engine.maths.Vector3f;
 import org.lwjgl.opengl.GL13;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -25,14 +28,17 @@ public class GuiRenderer extends Renderer<GuiTexture> {
         this.mesh = new RawMesh(new Vector3f[]{new Vector3f(-1, 1, 0), new Vector3f(-1, -1, 0), new Vector3f(1, 1, 0), new Vector3f(1, -1, 0)}, new int[4]);
     }
 
-    public void guiRenderer(List<GuiTexture> toRender) {
+    public void guiRenderer(HashMap<Material, ArrayList<GuiTexture>> guisToRender) {
         shader.bind();
         glBindVertexArray(this.mesh.getVAO());
         glEnableVertexAttribArray(0);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        for (GuiTexture gui : toRender) {
-            render(gui);
+        for(Material material : guisToRender.keySet()){
+            prepareMaterial(material);
+            for(GuiTexture gui : guisToRender.get(material)){
+                render(gui);
+            }
         }
         glDisable(GL_BLEND);
         glDisableVertexAttribArray(0);
@@ -41,10 +47,13 @@ public class GuiRenderer extends Renderer<GuiTexture> {
         shader.unbind();
     }
 
+    protected void prepareMaterial(Material material){
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL13.glBindTexture(GL_TEXTURE_2D, material.getTexture().getImageID());
+    }
+
     @Override
     protected void render(GuiTexture toRender) {
-        GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL13.glBindTexture(GL_TEXTURE_2D, toRender.getMaterial().getTexture().getImageID());
         shader.setUniform("transformation", Matrix4f.transform(new Vector3f(toRender.getTextPos(), 0), new Vector3f(0, 0, 0), new Vector3f(toRender.getTextScale(), 1)));
         shader.setUniform("position", toRender.getTextPos());
         glDrawArrays(GL_TRIANGLE_STRIP, 0, mesh.getIndices().length);

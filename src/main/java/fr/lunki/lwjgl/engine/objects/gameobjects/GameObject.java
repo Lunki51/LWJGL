@@ -8,14 +8,14 @@ public class GameObject {
     private Vector3f position;
     private Vector3f rotation;
     private Vector3f scale;
-    private RawMesh[] meshes;
+    private RawMesh mesh;
     private boolean shouldRender;
 
-    public GameObject(Vector3f position, Vector3f rotation, Vector3f scale, RawMesh[] meshes) {
+    public GameObject(Vector3f position, Vector3f rotation, Vector3f scale, RawMesh mesh) {
         this.position = position;
         this.rotation = rotation;
         this.scale = scale;
-        this.meshes = meshes;
+        this.mesh = mesh;
         this.shouldRender = true;
     }
 
@@ -39,19 +39,15 @@ public class GameObject {
         return scale;
     }
 
-    public RawMesh[] getMesh() {
-        return meshes;
+    public RawMesh getMesh() {
+        return mesh;
     }
 
     public void create(){
-        for(RawMesh mesh : getMesh()){
-            mesh.create();
-        }
+        mesh.create();
     }
 
     public void destroy(){
-        for(RawMesh mesh : getMesh()){
-            mesh.destroy();
-        }
+        mesh.destroy();
     }
 }

@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL30;
 
 import java.util.ArrayList;
 
-public class RawEntityRenderer extends EntityRenderer {
+public class RawEntityRenderer extends EntityRenderer<RawMesh,GameObject> {
     public RawEntityRenderer() {
         super(Main.window, new Shader("shaders/rawVertex.glsl", "shaders/rawFragment.glsl"));
     }
