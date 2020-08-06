@@ -13,7 +13,11 @@ public class ColoredMesh extends NormalMesh{
 
     @Override
     public void create() {
-        super.create();
-        generateVBO(this.colors);
+        if(!created){
+            super.create();
+            generateVBO(this.colors);
+            created = true;
+        }
+
     }
 }

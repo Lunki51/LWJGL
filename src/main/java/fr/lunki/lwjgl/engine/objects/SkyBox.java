@@ -7,7 +7,7 @@ import fr.lunki.lwjgl.engine.maths.Vector3f;
 
 public class SkyBox{
 
-    private RawMesh mesh;
+    private RawMesh mesh ;
     private CubeMapTexture texture;
 
     public SkyBox(int size, String[] texture_files) {

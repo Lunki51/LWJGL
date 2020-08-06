@@ -47,15 +47,21 @@ public class Scene {
 
     public void addGameObject(GameObject gameObject) {
         HashMap selectedMap = rawObjectsToRender;
-        if(gameObject instanceof TexturedGameObject)selectedMap = texturedObjectsToRender;
-        if(gameObject instanceof ColoredObject)selectedMap = coloredObjectsToRender;
-        if(gameObject instanceof NormalObject)selectedMap = normalObjectsToRender;
+
+        if(gameObject instanceof NormalObject){
+            if(gameObject instanceof TexturedGameObject){
+                selectedMap = texturedObjectsToRender;
+            }else if(gameObject instanceof ColoredObject){
+                selectedMap = coloredObjectsToRender;
+            }else{
+                selectedMap = normalObjectsToRender;
+            }
+        }
         if(selectedMap.containsKey(gameObject.getMesh())){
             ((ArrayList)selectedMap.get(gameObject.getMesh())).add(gameObject);
         }else{
             selectedMap.put(gameObject.getMesh(),new ArrayList<>());
             ((ArrayList)selectedMap.get(gameObject.getMesh())).add(gameObject);
-
         }
         gameObject.create();
     }

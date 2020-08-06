@@ -19,28 +19,28 @@ public class RawEntityRenderer extends EntityRenderer<RawMesh,GameObject> {
 
     @Override
     protected void render(GameObject toRender) {
-        shader.setUniform("model", Matrix4f.transform(toRender.getPosition(), toRender.getRotation(), toRender.getScale()));
+        shader.setUniform("transform", Matrix4f.transform(toRender.getPosition(), toRender.getRotation(), toRender.getScale()));
     }
 
     @Override
     protected void prepareMesh(RawMesh mesh, Camera camera, ArrayList<Light> lights) {
         GL30.glBindVertexArray(mesh.getVAO());
         GL30.glEnableVertexAttribArray(0);
-        GL30.glEnableVertexAttribArray(1);
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, mesh.getIBO());
         shader.setUniform("view", Matrix4f.view(camera.getPosition(), camera.getRotation()));
-        shader.setUniform("projection", window.getProjection());
+        /*
         for(int i=0;i<lights.size();i++){
             shader.setUniform("lightPosition["+i+"]", lights.get(i).getPosition());
             shader.setUniform("lightColour["+i+"]", lights.get(i).getColour());
             shader.setUniform("attenuation["+i+"]",lights.get(i).getAttenuation());
         }
+
+         */
     }
 
     @Override
     protected void unbindMesh() {
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
-        GL30.glDisableVertexAttribArray(1);
         GL30.glDisableVertexAttribArray(0);
         GL30.glBindVertexArray(0);
     }

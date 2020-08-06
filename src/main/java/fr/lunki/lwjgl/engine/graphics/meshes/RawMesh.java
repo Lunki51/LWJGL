@@ -13,6 +13,7 @@ public class RawMesh {
 
     protected Vector3f[] position;
     protected int[] indices;
+    protected boolean created;
 
     protected int vao,ibo;
     protected ArrayList<Integer> vbos = new ArrayList<>();
@@ -23,12 +24,15 @@ public class RawMesh {
     }
 
     public void create(){
-        this.vao = glGenVertexArrays();
-        glBindVertexArray(vao);
+        if(!created){
+            this.vao = glGenVertexArrays();
+            glBindVertexArray(vao);
 
-        generateVBO(this.position);
+            generateVBO(this.position);
 
-        storeIndices(this.indices);
+            storeIndices(this.indices);
+            created=true;
+        }
     }
 
     protected void generateVBO(Vector3f[] data){

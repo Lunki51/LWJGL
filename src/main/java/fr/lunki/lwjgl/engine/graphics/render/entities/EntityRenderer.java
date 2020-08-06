@@ -8,13 +8,12 @@ import fr.lunki.lwjgl.engine.io.Window;
 import fr.lunki.lwjgl.engine.maths.Vector3f;
 import fr.lunki.lwjgl.engine.objects.gameobjects.GameObject;
 import fr.lunki.lwjgl.engine.objects.Light;
+import fr.lunki.lwjgl.engine.objects.gameobjects.TexturedGameObject;
 import fr.lunki.lwjgl.engine.objects.player.Camera;
 import javafx.scene.shape.Mesh;
 import org.lwjgl.opengl.GL11;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
@@ -27,18 +26,39 @@ public abstract class EntityRenderer<K extends RawMesh,T extends GameObject> ext
 
     public void renderObject(HashMap<K, ArrayList<T>> toRender, Camera camera, ArrayList<Light> lights){
         shader.bind();
-        for (RawMesh mesh : toRender.keySet()) {
-            ArrayList<Light> lightsToRender = prepareLights(lights);
+        enableCulling();
+        shader.setUniform("projection", window.getProjection());
+        TreeMap<Float,T> transparentsObject = new TreeMap<>();
+        ArrayList<Light> lightsToRender = prepareLights(lights);
+        for (K mesh : toRender.keySet()) {
             prepareMesh(mesh,camera,lightsToRender);
             List<T> batch = toRender.get(mesh);
             for (T object : batch) {
                 if(object.isShouldRender()){
-                    render(object);
-                    GL11.glDrawElements(GL_TRIANGLES, mesh.getIndices().length, GL_UNSIGNED_INT, 0);
+                    if(object instanceof TexturedGameObject ){
+                        if(!((TexturedGameObject)object).getMesh().getMaterial().isTransparent()){
+                            render(object);
+                            GL11.glDrawElements(GL_TRIANGLES, mesh.getIndices().length, GL_UNSIGNED_INT, 0);
+                        }else{
+                            transparentsObject.put(Vector3f.length(Vector3f.subtract(camera.getPosition(),object.getPosition())),object);
+                        }
+                    }else{
+                        render(object);
+                        GL11.glDrawElements(GL_TRIANGLES, mesh.getIndices().length, GL_UNSIGNED_INT, 0);
+                    }
                 }
             }
+
             unbindMesh();
         }
+        for(Float f : transparentsObject.descendingKeySet()){
+            T object = transparentsObject.get(f);
+            prepareMesh(object.getMesh(),camera,lightsToRender);
+            render(object);
+            GL11.glDrawElements(GL_TRIANGLES, object.getMesh().getIndices().length, GL_UNSIGNED_INT, 0);
+            unbindMesh();
+        }
+        disableBend();
         shader.unbind();
     }
 

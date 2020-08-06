@@ -15,6 +15,7 @@ public class Material {
     private boolean usingFakeLighting = false;
     private int atlasSize = 1;
     private Texture texture;
+    private boolean created;
 
     public Material(Texture texture) {
         this.texture = texture;
@@ -51,7 +52,11 @@ public class Material {
     }
 
     public void create(){
-        this.texture.create();
+        if(!created){
+            this.texture.create();
+            created=true;
+        }
+
     }
 
     public float getShininess() {

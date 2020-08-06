@@ -12,7 +12,6 @@ import org.lwjgl.opengl.GL13;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
@@ -34,9 +33,9 @@ public class GuiRenderer extends Renderer<GuiTexture> {
         glEnableVertexAttribArray(0);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        for(Material material : guisToRender.keySet()){
+        for (Material material : guisToRender.keySet()) {
             prepareMaterial(material);
-            for(GuiTexture gui : guisToRender.get(material)){
+            for (GuiTexture gui : guisToRender.get(material)) {
                 render(gui);
             }
         }
@@ -47,7 +46,7 @@ public class GuiRenderer extends Renderer<GuiTexture> {
         shader.unbind();
     }
 
-    protected void prepareMaterial(Material material){
+    protected void prepareMaterial(Material material) {
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL13.glBindTexture(GL_TEXTURE_2D, material.getTexture().getImageID());
     }

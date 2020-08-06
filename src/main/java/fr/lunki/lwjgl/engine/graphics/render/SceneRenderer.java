@@ -50,20 +50,34 @@ public class SceneRenderer extends Renderer<Scene> {
 
     @Override
     public void render(Scene toRender) {
+
         Camera camera = toRender.getCamera();
         ArrayList<Light> lights = toRender.getLights();
         SkyBox skybox = toRender.getSkyBox();
 
         if(lights==null)lights = new ArrayList<>();
 
-        if(camera!=null){
-            if(toRender.getRawObjectsToRender()!=null)rawEntityRenderer.renderObject(toRender.getRawObjectsToRender(),camera,lights);
-            if(toRender.getNormalObjectsToRender()!=null)normalEntityRenderer.renderObject(toRender.getNormalObjectsToRender(),camera,lights);
-            if(toRender.getColoredObjectsToRender()!=null)coloredEntityRenderer.renderObject(toRender.getColoredObjectsToRender(),camera,lights);
-            if(toRender.getTexturedObjectsToRender()!=null)texturedEntityRenderer.renderObject(toRender.getTexturedObjectsToRender(),camera,lights);
+        if(skybox!=null)skyBoxRenderer.renderSkyBox(skybox,camera);
+        if(toRender.getTerrainsToRender()!=null)terrainRenderer.renderTerrain(toRender.getTerrainsToRender(),camera,lights);
 
-            if(skybox!=null)skyBoxRenderer.renderSkyBox(skybox,camera);
-            if(toRender.getTerrainsToRender()!=null)terrainRenderer.renderTerrain(toRender.getTerrainsToRender(),camera,lights);
+
+
+        if(camera!=null){
+
+            if(toRender.getRawObjectsToRender()!=null){
+                rawEntityRenderer.renderObject(toRender.getRawObjectsToRender(),camera,lights);
+            }
+            if(toRender.getNormalObjectsToRender()!=null){
+                normalEntityRenderer.renderObject(toRender.getNormalObjectsToRender(),camera,lights);
+            }
+            if(toRender.getColoredObjectsToRender()!=null){
+                coloredEntityRenderer.renderObject(toRender.getColoredObjectsToRender(),camera,lights);
+            }
+            if(toRender.getTexturedObjectsToRender()!=null){
+                texturedEntityRenderer.renderObject(toRender.getTexturedObjectsToRender(),camera,lights);
+            }
+
+
 
         }
 

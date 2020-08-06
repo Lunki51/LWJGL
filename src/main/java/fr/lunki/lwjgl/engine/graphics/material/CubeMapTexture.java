@@ -37,7 +37,7 @@ public class CubeMapTexture extends Texture {
             glTexParameteri(GLES20.GL_TEXTURE_CUBE_MAP, GL_TEXTURE_BASE_LEVEL, 0);
             glTexParameteri(GLES20.GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAX_LEVEL, 0);
             for(int i=0;i<this.paths.length;i++){
-                BufferedImage image = ImageIO.read(new File(paths[i]));
+                BufferedImage image = ImageIO.read(new File("res/texture/" +paths[i]));
                 BufferedImage converted = new BufferedImage(image.getWidth(),image.getHeight(),BufferedImage.TYPE_4BYTE_ABGR);
                 converted.getGraphics().drawImage(image,0,0,null);
                 converted.getGraphics().dispose();
@@ -57,6 +57,7 @@ public class CubeMapTexture extends Texture {
 
         }catch (IOException e){
             System.err.println("Impossible de lire : "+paths);
+            e.printStackTrace();
         }
     }
 }

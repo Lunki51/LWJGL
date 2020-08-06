@@ -13,7 +13,11 @@ public class NormalMesh extends RawMesh{
 
     @Override
     public void create() {
-        super.create();
-        generateVBO(this.normals);
+        if(!created){
+            super.create();
+            generateVBO(this.normals);
+            created=true;
+        }
+
     }
 }

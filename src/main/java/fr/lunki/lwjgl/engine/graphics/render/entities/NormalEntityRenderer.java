@@ -30,17 +30,19 @@ public class NormalEntityRenderer extends EntityRenderer<NormalMesh,NormalObject
 
         glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, mesh.getIBO());
         shader.setUniform("view", Matrix4f.view(camera.getPosition(), camera.getRotation()));
-        shader.setUniform("projection", window.getProjection());
+        /*
         for(int i=0;i<lights.size();i++){
             shader.setUniform("lightPosition["+i+"]", lights.get(i).getPosition());
             shader.setUniform("lightColour["+i+"]", lights.get(i).getColour());
             shader.setUniform("attenuation["+i+"]",lights.get(i).getAttenuation());
         }
+
+         */
     }
 
     @Override
     protected void render(NormalObject toRender) {
-        shader.setUniform("model", Matrix4f.transform(toRender.getPosition(), toRender.getRotation(), toRender.getScale()));
+        shader.setUniform("transform", Matrix4f.transform(toRender.getPosition(), toRender.getRotation(), toRender.getScale()));
     }
 
     @Override
