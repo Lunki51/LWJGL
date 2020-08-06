@@ -4,15 +4,18 @@ in vec3 position;
 in vec3 normals;
 in vec3 color;
 
-out vec3 passColor;
+out vec3 outPosition;
+out vec3 outNormals;
+out vec3 outColor;
 
 uniform mat4 transform;
-uniform mat4 view;
-uniform mat4 projection;
 
 void main() {
 
-    gl_Position = projection * view * transform * vec4(position,1.0);
-    passColor=color;
+    outPosition = (transform * vec4(position,1.0)).xyz;
+
+    outColor=color;
+
+    outNormals = normals;
 
 }

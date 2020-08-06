@@ -8,8 +8,9 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
 import static org.lwjgl.opengl.GL30.*;
+import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-public class RawMesh {
+public abstract class RawMesh {
 
     protected Vector3f[] position;
     protected int[] indices;

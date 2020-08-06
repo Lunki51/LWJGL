@@ -32,7 +32,6 @@ public class Main {
 
         //SETTING UP THE TEST SCENE
         TexturedMesh[] cart = FileModelLoader.readModelFile("CartEmbbed.fbx", "", aiProcess_Triangulate | aiProcess_FixInfacingNormals | aiProcess_JoinIdenticalVertices);
-        TexturedMesh[] cartImage = FileModelLoader.readModelFile("Cart.fbx", "", aiProcess_Triangulate | aiProcess_FixInfacingNormals | aiProcess_JoinIdenticalVertices);
         TexturedMesh windowmesh = new TexturedMesh(new Vector3f[]{
                 new Vector3f(1,-1,0),
                 new Vector3f(-1,-1,0),

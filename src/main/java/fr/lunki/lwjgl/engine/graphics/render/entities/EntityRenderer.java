@@ -43,8 +43,8 @@ public abstract class EntityRenderer<K extends RawMesh,T extends GameObject> ext
                             transparentsObject.put(Vector3f.length(Vector3f.subtract(camera.getPosition(),object.getPosition())),object);
                         }
                     }else{
-                        render(object);
-                        GL11.glDrawElements(GL_TRIANGLES, mesh.getIndices().length, GL_UNSIGNED_INT, 0);
+                        GL11.glDrawElements(GL_TRIANGLES, mesh.getIndices().length, GL_UNSIGNED_INT, 0);render(object);
+
                     }
                 }
             }

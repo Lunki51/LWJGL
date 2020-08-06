@@ -5,8 +5,10 @@ import fr.lunki.lwjgl.engine.graphics.Shader;
 import fr.lunki.lwjgl.engine.graphics.gui.GuiTexture;
 import fr.lunki.lwjgl.engine.graphics.material.Material;
 import fr.lunki.lwjgl.engine.graphics.meshes.RawMesh;
+import fr.lunki.lwjgl.engine.graphics.meshes.TexturedMesh;
 import fr.lunki.lwjgl.engine.graphics.render.Renderer;
 import fr.lunki.lwjgl.engine.maths.Matrix4f;
+import fr.lunki.lwjgl.engine.maths.Vector2f;
 import fr.lunki.lwjgl.engine.maths.Vector3f;
 import org.lwjgl.opengl.GL13;
 
@@ -24,7 +26,7 @@ public class GuiRenderer extends Renderer<GuiTexture> {
 
     public GuiRenderer() {
         super(Main.window, new Shader("shaders/guiVertex.glsl", "shaders/guiFragment.glsl"));
-        this.mesh = new RawMesh(new Vector3f[]{new Vector3f(-1, 1, 0), new Vector3f(-1, -1, 0), new Vector3f(1, 1, 0), new Vector3f(1, -1, 0)}, new int[4]);
+        this.mesh = new TexturedMesh(new Vector3f[]{new Vector3f(-1, 1, 0), new Vector3f(-1, -1, 0), new Vector3f(1, 1, 0), new Vector3f(1, -1, 0)}, new int[4],new Vector3f[0],new Vector2f[0],null);
     }
 
     public void guiRenderer(HashMap<Material, ArrayList<GuiTexture>> guisToRender) {

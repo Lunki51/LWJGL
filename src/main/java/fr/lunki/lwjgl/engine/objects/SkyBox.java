@@ -1,8 +1,10 @@
 package fr.lunki.lwjgl.engine.objects;
 
 import fr.lunki.lwjgl.engine.graphics.material.CubeMapTexture;
+import fr.lunki.lwjgl.engine.graphics.material.Material;
 import fr.lunki.lwjgl.engine.graphics.meshes.RawMesh;
 import fr.lunki.lwjgl.engine.graphics.meshes.TexturedMesh;
+import fr.lunki.lwjgl.engine.maths.Vector2f;
 import fr.lunki.lwjgl.engine.maths.Vector3f;
 
 public class SkyBox{
@@ -11,7 +13,7 @@ public class SkyBox{
     private CubeMapTexture texture;
 
     public SkyBox(int size, String[] texture_files) {
-        this.mesh = new RawMesh(getPositions(size),getIndices());
+        this.mesh = new TexturedMesh(getPositions(size),getIndices(),new Vector3f[0],new Vector2f[0],null);
         this.texture = new CubeMapTexture(texture_files);
     }
 

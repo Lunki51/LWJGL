@@ -5,9 +5,6 @@ import fr.lunki.lwjgl.engine.graphics.Shader;
 import fr.lunki.lwjgl.engine.graphics.meshes.RawMesh;
 import fr.lunki.lwjgl.engine.graphics.meshes.TexturedMesh;
 import fr.lunki.lwjgl.engine.graphics.render.MeshRenderer;
-import fr.lunki.lwjgl.engine.graphics.render.Renderer;
-import fr.lunki.lwjgl.engine.graphics.render.entities.EntityRenderer;
-import fr.lunki.lwjgl.engine.io.Window;
 import fr.lunki.lwjgl.engine.maths.Matrix4f;
 import fr.lunki.lwjgl.engine.maths.Vector3f;
 import fr.lunki.lwjgl.engine.objects.Light;
@@ -21,7 +18,6 @@ import org.lwjgl.opengl.GL30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -67,11 +63,10 @@ public class TerrainRenderer extends MeshRenderer<RawMesh,Terrain> {
         GL30.glEnableVertexAttribArray(0);
         GL30.glEnableVertexAttribArray(1);
         GL30.glEnableVertexAttribArray(2);
-        GL30.glEnableVertexAttribArray(3);
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, mesh.getIBO());
         create();
         shader.setUniform("shineDamper", mesh.getMaterial().getShininess());
-        shader.setUniform("reflectivity", mesh.getMaterial().getReflectivity());
+        shader.setUniform("reflectivity", mesh.getMaterial().getSpecular());
         shader.setUniform("view", Matrix4f.view(camera.getPosition(), camera.getRotation()));
         shader.setUniform("projection", window.getProjection());
         for(int i=0;i<lights.size();i++){
@@ -103,10 +98,9 @@ public class TerrainRenderer extends MeshRenderer<RawMesh,Terrain> {
 
     protected void unbindTerrain() {
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
-        GL30.glDisableVertexAttribArray(0);
-        GL30.glDisableVertexAttribArray(1);
         GL30.glDisableVertexAttribArray(2);
-        GL30.glDisableVertexAttribArray(3);
+        GL30.glDisableVertexAttribArray(1);
+        GL30.glDisableVertexAttribArray(0);
         GL30.glBindVertexArray(0);
     }
 

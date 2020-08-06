@@ -2,7 +2,7 @@ package fr.lunki.lwjgl.engine.graphics.meshes;
 
 import fr.lunki.lwjgl.engine.maths.Vector3f;
 
-public class NormalMesh extends RawMesh{
+public abstract class NormalMesh extends RawMesh{
 
     protected Vector3f[] normals;
 

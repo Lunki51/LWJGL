@@ -3,7 +3,7 @@ package fr.lunki.lwjgl.engine.objects.gameobjects;
 import fr.lunki.lwjgl.engine.graphics.meshes.RawMesh;
 import fr.lunki.lwjgl.engine.maths.Vector3f;
 
-public class GameObject {
+public abstract class GameObject {
 
     private Vector3f position;
     private Vector3f rotation;

@@ -1,16 +1,9 @@
 package fr.lunki.lwjgl.engine.graphics.material;
 
-import fr.lunki.lwjgl.engine.maths.Vector3f;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
 public class Material {
 
     private float shininess =0;
-    private float reflectivity = 0;
+    private float specular = 0;
     private boolean transparent = false;
     private boolean usingFakeLighting = false;
     private int atlasSize = 1;
@@ -26,15 +19,15 @@ public class Material {
         this.texture = texture;
     }
 
-    public Material(float shininess, float reflectivity, Texture texture) {
+    public Material(float shininess, float specular, Texture texture) {
         this.shininess = shininess;
-        this.reflectivity = reflectivity;
+        this.specular = specular;
         this.texture = texture;
     }
 
-    public Material(float shininess, float reflectivity, int atlasSize, Texture texture) {
+    public Material(float shininess, float specular, int atlasSize, Texture texture) {
         this.shininess = shininess;
-        this.reflectivity = reflectivity;
+        this.specular = specular;
         this.atlasSize = atlasSize;
         this.texture = texture;
     }
@@ -63,8 +56,8 @@ public class Material {
         return shininess;
     }
 
-    public float getReflectivity() {
-        return reflectivity;
+    public float getSpecular() {
+        return specular;
     }
 
     public boolean isUsingFakeLighting() {
