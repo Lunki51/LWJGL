@@ -13,13 +13,11 @@ import fr.lunki.lwjgl.engine.objects.gameobjects.TexturedGameObject;
 import fr.lunki.lwjgl.engine.objects.player.Camera;
 import fr.lunki.lwjgl.engine.terrain.Terrain;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Scene {
-    private ArrayList<Light> lights;
+    private final ArrayList<Light> lights;
     private SkyBox skyBox;
     private Camera camera;
 
@@ -28,7 +26,7 @@ public class Scene {
     HashMap<ColoredMesh, ArrayList<ColoredObject>> coloredObjectsToRender;
     HashMap<TexturedMesh, ArrayList<TexturedGameObject>> texturedObjectsToRender;
     HashMap<TexturedMesh, ArrayList<Terrain>> terrainsToRender;
-    HashMap<Material,ArrayList<GuiTexture>> guisToRender;
+    HashMap<Material, ArrayList<GuiTexture>> guisToRender;
 
     public Scene() {
         this.lights = new ArrayList<>();
@@ -48,39 +46,39 @@ public class Scene {
     public void addGameObject(GameObject gameObject) {
         HashMap selectedMap = rawObjectsToRender;
 
-        if(gameObject instanceof NormalObject){
-            if(gameObject instanceof TexturedGameObject){
+        if (gameObject instanceof NormalObject) {
+            if (gameObject instanceof TexturedGameObject) {
                 selectedMap = texturedObjectsToRender;
-            }else if(gameObject instanceof ColoredObject){
+            } else if (gameObject instanceof ColoredObject) {
                 selectedMap = coloredObjectsToRender;
-            }else{
+            } else {
                 selectedMap = normalObjectsToRender;
             }
         }
-        if(selectedMap.containsKey(gameObject.getMesh())){
-            ((ArrayList)selectedMap.get(gameObject.getMesh())).add(gameObject);
-        }else{
-            selectedMap.put(gameObject.getMesh(),new ArrayList<>());
-            ((ArrayList)selectedMap.get(gameObject.getMesh())).add(gameObject);
+        if (selectedMap.containsKey(gameObject.getMesh())) {
+            ((ArrayList) selectedMap.get(gameObject.getMesh())).add(gameObject);
+        } else {
+            selectedMap.put(gameObject.getMesh(), new ArrayList<>());
+            ((ArrayList) selectedMap.get(gameObject.getMesh())).add(gameObject);
         }
         gameObject.create();
     }
 
     public void addTerrain(Terrain terrain) {
-        if(terrainsToRender.containsKey(terrain.getMesh())){
+        if (terrainsToRender.containsKey(terrain.getMesh())) {
             terrainsToRender.get(terrain.getMesh()).add(terrain);
-        }else{
-            terrainsToRender.put(terrain.getMesh(),new ArrayList<>());
+        } else {
+            terrainsToRender.put(terrain.getMesh(), new ArrayList<>());
             terrainsToRender.get(terrain.getMesh()).add(terrain);
         }
         terrain.create();
     }
 
-    public void addGui(GuiTexture guiTexture){
-        if(getGuisToRender().containsKey(guiTexture.getMaterial())){
+    public void addGui(GuiTexture guiTexture) {
+        if (getGuisToRender().containsKey(guiTexture.getMaterial())) {
             getGuisToRender().get(guiTexture.getMaterial()).add(guiTexture);
-        }else{
-            getGuisToRender().put(guiTexture.getMaterial(),new ArrayList<>());
+        } else {
+            getGuisToRender().put(guiTexture.getMaterial(), new ArrayList<>());
             getGuisToRender().get(guiTexture.getMaterial()).add(guiTexture);
         }
         guiTexture.create();
@@ -98,32 +96,32 @@ public class Scene {
     }
 
     public void destroy() {
-        for (RawMesh mesh : getRawObjectsToRender().keySet()){
+        for (RawMesh mesh : getRawObjectsToRender().keySet()) {
             mesh.destroy();
         }
-        for (NormalMesh mesh : getNormalObjectsToRender().keySet()){
+        for (NormalMesh mesh : getNormalObjectsToRender().keySet()) {
             mesh.destroy();
         }
-        for (TexturedMesh mesh : getTexturedObjectsToRender().keySet()){
+        for (TexturedMesh mesh : getTexturedObjectsToRender().keySet()) {
             mesh.destroy();
         }
-        for (ColoredMesh mesh : getColoredObjectsToRender().keySet()){
+        for (ColoredMesh mesh : getColoredObjectsToRender().keySet()) {
             mesh.destroy();
         }
-        for(RawMesh mesh : getTerrainsToRender().keySet()){
+        for (RawMesh mesh : getTerrainsToRender().keySet()) {
             mesh.destroy();
         }
-        for(Material material : getGuisToRender().keySet()){
+        for (Material material : getGuisToRender().keySet()) {
             material.destroy();
         }
 
-        if(this.skyBox!=null)this.skyBox.destroy();
-        if(getRawObjectsToRender()!=null)getRawObjectsToRender().clear();
-        if(getNormalObjectsToRender()!=null)getNormalObjectsToRender().clear();
-        if(getTexturedObjectsToRender()!=null)getTexturedObjectsToRender().clear();
-        if(getColoredObjectsToRender()!=null)getColoredObjectsToRender().clear();
-        if(getTerrainsToRender()!=null)getTerrainsToRender().clear();
-        if(getGuisToRender()!=null)getGuisToRender().clear();
+        if (this.skyBox != null) this.skyBox.destroy();
+        if (getRawObjectsToRender() != null) getRawObjectsToRender().clear();
+        if (getNormalObjectsToRender() != null) getNormalObjectsToRender().clear();
+        if (getTexturedObjectsToRender() != null) getTexturedObjectsToRender().clear();
+        if (getColoredObjectsToRender() != null) getColoredObjectsToRender().clear();
+        if (getTerrainsToRender() != null) getTerrainsToRender().clear();
+        if (getGuisToRender() != null) getGuisToRender().clear();
     }
 
     public ArrayList<Light> getLights() {

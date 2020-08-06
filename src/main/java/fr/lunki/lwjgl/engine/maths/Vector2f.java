@@ -63,9 +63,7 @@ public class Vector2f {
         Vector2f other = (Vector2f) obj;
         if (Float.floatToIntBits(x) != Float.floatToIntBits(other.x))
             return false;
-        if (Float.floatToIntBits(y) != Float.floatToIntBits(other.y))
-            return false;
-        return true;
+        return Float.floatToIntBits(y) == Float.floatToIntBits(other.y);
     }
 
     public float getX() {

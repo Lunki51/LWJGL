@@ -5,10 +5,10 @@ import fr.lunki.lwjgl.engine.maths.Vector3f;
 
 public abstract class GameObject {
 
-    private Vector3f position;
-    private Vector3f rotation;
-    private Vector3f scale;
-    private RawMesh mesh;
+    private final Vector3f position;
+    private final Vector3f rotation;
+    private final Vector3f scale;
+    private final RawMesh mesh;
     private boolean shouldRender;
 
     public GameObject(Vector3f position, Vector3f rotation, Vector3f scale, RawMesh mesh) {
@@ -43,11 +43,11 @@ public abstract class GameObject {
         return mesh;
     }
 
-    public void create(){
+    public void create() {
         mesh.create();
     }
 
-    public void destroy(){
+    public void destroy() {
         mesh.destroy();
     }
 }

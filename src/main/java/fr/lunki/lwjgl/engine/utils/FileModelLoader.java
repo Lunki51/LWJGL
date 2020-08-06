@@ -13,10 +13,7 @@ import org.lwjgl.system.MemoryUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.lang.reflect.Field;
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +22,7 @@ import static org.lwjgl.assimp.Assimp.*;
 
 public class FileModelLoader {
 
-    public static TexturedMesh[] readModelFile(String filename, String dataFile,int flags) {
+    public static TexturedMesh[] readModelFile(String filename, String dataFile, int flags) {
         AIScene fileScene = aiImportFile("res/model/" + filename, flags);
         if (fileScene == null) System.err.println("Impossible de lire " + fileScene);
         PointerBuffer aiMats = fileScene.mMaterials();

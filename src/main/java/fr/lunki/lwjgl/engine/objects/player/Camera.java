@@ -7,7 +7,7 @@ public class Camera {
 
     private Vector3f position, rotation;
     private float cameraDistance;
-    private Playable playerEntity;
+    private final Playable playerEntity;
     private final int VIEWANGLE = 10;
     private double oldScroll = 0;
 
@@ -68,7 +68,7 @@ public class Camera {
         double scroll = Input.getScrollY() - oldScroll;
         cameraDistance -= scroll;
         cameraDistance = this.cameraDistance < 0 ? 0 : cameraDistance;
-        oldScroll+=scroll;
+        oldScroll += scroll;
     }
 
 

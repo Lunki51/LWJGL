@@ -24,8 +24,8 @@ public class Vector4f {
         this.w = 0;
     }
 
-    public float length(){
-        return (float) Math.sqrt(this.getX() * this.getX() + this.getY() * this.getY() + this.getZ() * this.getZ() + this.getW()*this.getW());
+    public float length() {
+        return (float) Math.sqrt(this.getX() * this.getX() + this.getY() * this.getY() + this.getZ() * this.getZ() + this.getW() * this.getW());
     }
 
     public String toString() {

@@ -6,19 +6,15 @@ import fr.lunki.lwjgl.engine.graphics.meshes.ColoredMesh;
 import fr.lunki.lwjgl.engine.graphics.meshes.RawMesh;
 import fr.lunki.lwjgl.engine.maths.Matrix4f;
 import fr.lunki.lwjgl.engine.objects.gameobjects.ColoredObject;
-import fr.lunki.lwjgl.engine.objects.gameobjects.GameObject;
-import fr.lunki.lwjgl.engine.objects.Light;
 import fr.lunki.lwjgl.engine.objects.player.Camera;
 import org.lwjgl.opengl.GL15;
 
-import java.util.ArrayList;
-
 import static org.lwjgl.opengl.GL30.*;
 
-public class ColoredEntityRenderer extends EntityRenderer<ColoredMesh,ColoredObject>{
+public class ColoredEntityRenderer extends EntityRenderer<ColoredMesh, ColoredObject> {
 
     public ColoredEntityRenderer() {
-        super(Main.window, new Shader("shaders/colorVertex.glsl","shaders/colorFragment.glsl"));
+        super(Main.window, new Shader("shaders/colorVertex.glsl", "shaders/colorFragment.glsl"));
     }
 
     @Override
@@ -29,8 +25,8 @@ public class ColoredEntityRenderer extends EntityRenderer<ColoredMesh,ColoredObj
         glEnableVertexAttribArray(1);
         glEnableVertexAttribArray(2);
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,mesh.getIBO());
-        shader.setUniform("view", Matrix4f.view(camera.getPosition(),camera.getRotation()));
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.getIBO());
+        shader.setUniform("view", Matrix4f.view(camera.getPosition(), camera.getRotation()));
 
     }
 

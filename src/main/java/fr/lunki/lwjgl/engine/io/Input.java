@@ -1,6 +1,5 @@
 package fr.lunki.lwjgl.engine.io;
 
-import fr.lunki.lwjgl.Main;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
@@ -17,18 +16,18 @@ public class Input {
 
     private static boolean[] keys = new boolean[GLFW_KEY_LAST];
     private static boolean[] mouseButtons = new boolean[GLFW_MOUSE_BUTTON_LAST];
-    private static double mouseX,mouseY;
-    private static double scrollX=0,scrollY=0;
+    private static double mouseX, mouseY;
+    private static double scrollX = 0, scrollY = 0;
 
-    public Input(){
+    public Input() {
         keyCallback = new GLFWKeyCallback() {
             @Override
             public void invoke(long window, int key, int scancode, int action, int mods) {
-                if(action==GLFW_PRESS){
-                    keys[key]=true;
+                if (action == GLFW_PRESS) {
+                    keys[key] = true;
                 }
-                if(action==GLFW_RELEASE){
-                    keys[key]=false;
+                if (action == GLFW_RELEASE) {
+                    keys[key] = false;
                 }
             }
         };

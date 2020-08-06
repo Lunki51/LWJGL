@@ -1,28 +1,25 @@
 package fr.lunki.lwjgl.engine.objects;
 
 import fr.lunki.lwjgl.engine.graphics.material.CubeMapTexture;
-import fr.lunki.lwjgl.engine.graphics.material.Material;
 import fr.lunki.lwjgl.engine.graphics.meshes.RawMesh;
-import fr.lunki.lwjgl.engine.graphics.meshes.TexturedMesh;
-import fr.lunki.lwjgl.engine.maths.Vector2f;
 import fr.lunki.lwjgl.engine.maths.Vector3f;
 
-public class SkyBox{
+public class SkyBox {
 
-    private RawMesh mesh ;
-    private CubeMapTexture texture;
+    private final RawMesh mesh;
+    private final CubeMapTexture texture;
 
     public SkyBox(int size, String[] texture_files) {
-        this.mesh = new RawMesh(getPositions(size),getIndices());
+        this.mesh = new RawMesh(getPositions(size), getIndices());
         this.texture = new CubeMapTexture(texture_files);
     }
 
-    public void create(){
+    public void create() {
         this.mesh.create();
         this.texture.create();
     }
 
-    public void destroy(){
+    public void destroy() {
         this.mesh.destroy();
         this.texture.destroy();
     }
@@ -57,7 +54,7 @@ public class SkyBox{
         };
     }
 
-    private static Vector3f[] getPositions(int size){
+    private static Vector3f[] getPositions(int size) {
         return
                 new Vector3f[]{
                         new Vector3f(-size, size, -size),

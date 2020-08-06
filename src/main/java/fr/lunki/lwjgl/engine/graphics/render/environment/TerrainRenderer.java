@@ -21,18 +21,18 @@ import java.util.HashMap;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public class TerrainRenderer extends MeshRenderer<RawMesh,Terrain> {
+public class TerrainRenderer extends MeshRenderer<RawMesh, Terrain> {
     public TerrainRenderer() {
         //TODO Implements the new render method
-        super(Main.window , new Shader("shaders/texturedVertex.glsl","shaders/terrainFragment.glsl"));
+        super(Main.window, new Shader("shaders/texturedVertex.glsl", "shaders/terrainFragment.glsl"));
     }
 
-    public void renderTerrain(HashMap<TexturedMesh,ArrayList<Terrain>> terrainsToRender, Camera camera){
+    public void renderTerrain(HashMap<TexturedMesh, ArrayList<Terrain>> terrainsToRender, Camera camera) {
         shader.bind();
 
-        for(TexturedMesh mesh : terrainsToRender.keySet()){
-            prepareTerrain(mesh,camera);
-            for(Terrain terrain : terrainsToRender.get(mesh)){
+        for (TexturedMesh mesh : terrainsToRender.keySet()) {
+            prepareTerrain(mesh, camera);
+            for (Terrain terrain : terrainsToRender.get(mesh)) {
                 bindTextures(terrain);
                 render(terrain);
             }
@@ -51,11 +51,11 @@ public class TerrainRenderer extends MeshRenderer<RawMesh,Terrain> {
     @Override
     public void create() {
         super.create();
-        shader.setUniform("backgroundTexture",0);
-        shader.setUniform("rTexture",1);
-        shader.setUniform("gTexture",2);
-        shader.setUniform("bTexture",3);
-        shader.setUniform("blendMap",4);
+        shader.setUniform("backgroundTexture", 0);
+        shader.setUniform("rTexture", 1);
+        shader.setUniform("gTexture", 2);
+        shader.setUniform("bTexture", 3);
+        shader.setUniform("blendMap", 4);
     }
 
     protected void prepareTerrain(TexturedMesh mesh, Camera camera) {
@@ -69,10 +69,10 @@ public class TerrainRenderer extends MeshRenderer<RawMesh,Terrain> {
         shader.setUniform("reflectivity", mesh.getMaterial().getSpecular());
         shader.setUniform("view", Matrix4f.view(camera.getPosition(), camera.getRotation()));
         shader.setUniform("projection", window.getProjection());
-        shader.setUniform("skyColour",window.BACKGROUND);
+        shader.setUniform("skyColour", window.BACKGROUND);
     }
 
-    protected void bindTextures(Terrain terrain){
+    protected void bindTextures(Terrain terrain) {
         TerrainTextures textures = terrain.getTerrainTextures();
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL13.glBindTexture(GL_TEXTURE_2D, textures.getFont().getImageID());
@@ -87,7 +87,7 @@ public class TerrainRenderer extends MeshRenderer<RawMesh,Terrain> {
     }
 
     protected void renderTerrain(Terrain terrain) {
-        shader.setUniform("model", Matrix4f.transform(new Vector3f(terrain.getX(),0,terrain.getZ()), new Vector3f(0,0,0), new Vector3f(1,1,1)));
+        shader.setUniform("model", Matrix4f.transform(new Vector3f(terrain.getX(), 0, terrain.getZ()), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1)));
         GL11.glDrawElements(GL_TRIANGLES, terrain.getMesh().getIndices().length, GL_UNSIGNED_INT, 0);
     }
 
@@ -99,18 +99,18 @@ public class TerrainRenderer extends MeshRenderer<RawMesh,Terrain> {
         GL30.glBindVertexArray(0);
     }
 
-    public ArrayList<Light> prepareLights(ArrayList<Light> lights){
+    public ArrayList<Light> prepareLights(ArrayList<Light> lights) {
         ArrayList<Light> lightsToRender = new ArrayList<>();
-        if(lights.size()!=6){
-            for(int i=0;i<6;i++){
-                if(i<lights.size()){
+        if (lights.size() != 6) {
+            for (int i = 0; i < 6; i++) {
+                if (i < lights.size()) {
                     lightsToRender.add(lights.get(i));
-                }else{
-                    lightsToRender.add(new Light(new Vector3f(1,1,1),new Vector3f(1,1,1)));
+                } else {
+                    lightsToRender.add(new Light(new Vector3f(1, 1, 1), new Vector3f(1, 1, 1)));
                 }
             }
-        }else{
-            lightsToRender=lights;
+        } else {
+            lightsToRender = lights;
         }
         return lightsToRender;
     }

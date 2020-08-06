@@ -1,6 +1,6 @@
 package fr.lunki.lwjgl.engine.graphics.material;
 
-import static org.lwjgl.opengl.GL12.*;
+import static org.lwjgl.opengl.GL12.glDeleteTextures;
 
 public abstract class Texture {
 
@@ -12,7 +12,7 @@ public abstract class Texture {
         return imageID;
     }
 
-    public void destroy(){
+    public void destroy() {
         glDeleteTextures(this.imageID);
     }
 }

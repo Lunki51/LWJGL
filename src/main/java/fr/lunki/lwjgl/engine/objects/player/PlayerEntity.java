@@ -1,7 +1,6 @@
 package fr.lunki.lwjgl.engine.objects.player;
 
 import fr.lunki.lwjgl.Main;
-import fr.lunki.lwjgl.engine.graphics.material.Material;
 import fr.lunki.lwjgl.engine.graphics.meshes.RawMesh;
 import fr.lunki.lwjgl.engine.graphics.meshes.TexturedMesh;
 import fr.lunki.lwjgl.engine.io.Input;
@@ -9,14 +8,12 @@ import fr.lunki.lwjgl.engine.maths.Vector3f;
 import fr.lunki.lwjgl.engine.terrain.Terrain;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.ArrayList;
-
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_CONTROL;
 
 public class PlayerEntity extends Playable {
 
     private static final float WALK_SPEED = 5;
-    private float mouseSensitivity = 0.08f;
+    private final float mouseSensitivity = 0.08f;
 
     public PlayerEntity(Vector3f position, Vector3f rotation, Vector3f scale, TexturedMesh mesh, float headHight) {
         super(position, rotation, scale, mesh);
@@ -27,12 +24,12 @@ public class PlayerEntity extends Playable {
     public void move() {
         getPosition().add(0, -1, 0);
         Terrain ter = null;
-        for(RawMesh mesh  : Main.getMainScene().getTerrainsToRender().keySet())
-        for (Terrain terrain : Main.getMainScene().getTerrainsToRender().get(mesh)) {
-            if (terrain.contains(getPosition().getX(), getPosition().getZ())) {
-                ter = terrain;
+        for (RawMesh mesh : Main.getMainScene().getTerrainsToRender().keySet())
+            for (Terrain terrain : Main.getMainScene().getTerrainsToRender().get(mesh)) {
+                if (terrain.contains(getPosition().getX(), getPosition().getZ())) {
+                    ter = terrain;
+                }
             }
-        }
         float terrainHeight = ter == null ? 0 : ter.getHeight((int) getPosition().getX(), (int) getPosition().getZ());
 
         updateRotation();

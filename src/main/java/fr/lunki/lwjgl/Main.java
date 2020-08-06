@@ -33,39 +33,37 @@ public class Main {
         //SETTING UP THE TEST SCENE
         TexturedMesh[] cart = FileModelLoader.readModelFile("CartEmbbed.fbx", "", aiProcess_Triangulate | aiProcess_FixInfacingNormals | aiProcess_JoinIdenticalVertices);
         TexturedMesh windowmesh = new TexturedMesh(new Vector3f[]{
-                new Vector3f(1,-1,0),
-                new Vector3f(-1,-1,0),
-                new Vector3f(-1,1,0),
-                new Vector3f(1,1,0)
+                new Vector3f(1, -1, 0),
+                new Vector3f(-1, -1, 0),
+                new Vector3f(-1, 1, 0),
+                new Vector3f(1, 1, 0)
         },
                 new int[]{
-                        0,1,2,
-                        0,2,3
-                },new Vector3f[]{
-                        new Vector3f(0,0,1)
-        },new Vector2f[]{
-                new Vector2f(1,0),
-                new Vector2f(0,0),
-                new Vector2f(0,1),
-                new Vector2f(1,1)
-        },new Material(new FlatTexture("window.png")));
+                        0, 1, 2,
+                        0, 2, 3
+                }, new Vector3f[]{
+                new Vector3f(0, 0, 1)
+        }, new Vector2f[]{
+                new Vector2f(1, 0),
+                new Vector2f(0, 0),
+                new Vector2f(0, 1),
+                new Vector2f(1, 1)
+        }, new Material(new FlatTexture("window.png")));
 
         windowmesh.getMaterial().setTransparent();
 
 
-        scene.addGameObject(new TexturedGameObject(new Vector3f(0,1,0),new Vector3f(0,0,0),new Vector3f(2,2,2),windowmesh));
-        scene.addGameObject(new TexturedGameObject(new Vector3f(0,1,-5),new Vector3f(0,0,0),new Vector3f(2,2,2),windowmesh));
-        for(TexturedMesh mesh : cart){
-            for(int i=0;i<10;i++){
-                scene.addGameObject(new TexturedGameObject(new Vector3f((float)Math.random()*20, 0, (float)Math.random()*20), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), mesh));
+        scene.addGameObject(new TexturedGameObject(new Vector3f(0, 1, 0), new Vector3f(0, 0, 0), new Vector3f(2, 2, 2), windowmesh));
+        scene.addGameObject(new TexturedGameObject(new Vector3f(0, 1, -5), new Vector3f(0, 0, 0), new Vector3f(2, 2, 2), windowmesh));
+        for (TexturedMesh mesh : cart) {
+            for (int i = 0; i < 10; i++) {
+                scene.addGameObject(new TexturedGameObject(new Vector3f((float) Math.random() * 20, 0, (float) Math.random() * 20), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), mesh));
             }
 
         }
 
 
-
-
-        scene.setSkyBox(new SkyBox(500,new String[]{"sky/right.png", "sky/left.png", "sky/top.png", "sky/bottom.png", "sky/back.png", "sky/front.png"}));
+        scene.setSkyBox(new SkyBox(500, new String[]{"sky/right.png", "sky/left.png", "sky/top.png", "sky/bottom.png", "sky/back.png", "sky/front.png"}));
 
         scene.setCamera(camera);
 
@@ -90,11 +88,11 @@ public class Main {
 
     }
 
-    public static void setMainScene(Scene scene){
+    public static void setMainScene(Scene scene) {
         currentScene = scene;
     }
 
-    public static Scene getMainScene(){
+    public static Scene getMainScene() {
         return currentScene;
     }
 

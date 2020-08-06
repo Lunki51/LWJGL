@@ -40,16 +40,14 @@ public class TexturedMesh extends NormalMesh {
 
     @Override
     public void create() {
-        if(!created){
-            if(this.material!=null)this.material.create();
+        if (!created) {
+            if (this.material != null) this.material.create();
             super.create();
             generateVBO(this.textureCoord);
-            created=true;
+            created = true;
         }
 
     }
-
-
 
 
     public void setMaterial(Material material) {

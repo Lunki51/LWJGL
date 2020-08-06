@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class Matrix4f {
 
     public static final int SIZE = 4;
-    private float[] elements = new float[SIZE * SIZE];
+    private final float[] elements = new float[SIZE * SIZE];
 
     public Matrix4f(Vector4f vector4f) {
         set(0, 0, vector4f.getX());
@@ -50,8 +50,8 @@ public class Matrix4f {
         int[][] numb = {{1, -1, 1, -1}, {-1, 1, -1, 1}, {1, -1, 1, -1}, {-1, 1, -1, 1}};
         float det = getDet(matrix4f);
         float val = det == 0 ? 0 : 1 / det;
-        for (int i = 0; i < matrix4f.SIZE; i++) {
-            for (int j = 0; j < matrix4f.SIZE; j++) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
                 matrix.set(i, j, Matrix3f.getDet(getUnderMatrix(j, i, matrix4f)) * val * numb[i][j]);
             }
         }
@@ -62,8 +62,8 @@ public class Matrix4f {
         Matrix3f matrix3f = new Matrix3f();
         int[][] pos = {{0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {1, 2}, {2, 0}, {2, 1}, {2, 2}};
         int lvl = 0;
-        for (int i = 0; i < matrix4f.SIZE; i++) {
-            for (int j = 0; j < matrix4f.SIZE; j++) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
                 if (i != ignoreX && j != ignoreY) {
                     matrix3f.set(pos[lvl][0], pos[lvl][1], matrix4f.get(i, j));
                     lvl++;
@@ -88,11 +88,7 @@ public class Matrix4f {
     public static float getDet(Matrix4f matrix4f) {
 
         float det = matrix4f.get(0, 0) * Matrix3f.getDet(getUnderMatrix(0, 0, matrix4f)) - matrix4f.get(1, 0) * Matrix3f.getDet(getUnderMatrix(1, 0, matrix4f)) + matrix4f.get(2, 0) * Matrix3f.getDet(getUnderMatrix(2, 0, matrix4f)) - matrix4f.get(3, 0) * Matrix3f.getDet(getUnderMatrix(3, 0, matrix4f));
-        if (det != 0) {
-            return det;
-        } else {
-            return 0;
-        }
+        return det;
 
     }
 
@@ -103,7 +99,7 @@ public class Matrix4f {
         float sin = (float) Math.sin(Math.toRadians(angle));
         float C = 1 - cos;
 
-        result.set(0, 0, axis.getX() * axis.getX() * C+cos);
+        result.set(0, 0, axis.getX() * axis.getX() * C + cos);
         result.set(0, 1, axis.getX() * axis.getY() * C - axis.getZ() * sin);
         result.set(0, 2, axis.getX() * axis.getZ() * C + axis.getY() * sin);
         result.set(1, 0, axis.getY() * axis.getX() * C + axis.getZ() * sin);
@@ -183,9 +179,9 @@ public class Matrix4f {
         Vector3f negative = new Vector3f(-position.getX(), -position.getY(), -position.getZ());
         Matrix4f translationMatrix = Matrix4f.translate(negative);
 
-        result = Matrix4f.multiply(result,rotXMatrix);
+        result = Matrix4f.multiply(result, rotXMatrix);
         result = Matrix4f.multiply(result, rotYMatrix);
-        result = Matrix4f.multiply(result,translationMatrix);
+        result = Matrix4f.multiply(result, translationMatrix);
 
         return result;
     }

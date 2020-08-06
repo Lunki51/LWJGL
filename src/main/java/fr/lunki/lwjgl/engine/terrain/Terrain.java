@@ -11,28 +11,28 @@ import fr.lunki.lwjgl.engine.maths.Vector3f;
 //TODO Rework for better looking stuff
 public class Terrain {
     private static final float SIZE = 512;
-    private static final float MAX_PIXEL_COLOUR = 256*256*256;
-    private Grid grid;
-    private int terrainModifier;
-    private int terrainRadius;
+    private static final float MAX_PIXEL_COLOUR = 256 * 256 * 256;
+    private final Grid grid;
+    private final int terrainModifier;
+    private final int terrainRadius;
 
-    private float x, z;
+    private final float x;
+    private final float z;
     private TexturedMesh mesh;
-    private TerrainTextures terrainTextures;
+    private final TerrainTextures terrainTextures;
 
-    public Terrain(float gridX, float gridZ,TerrainTextures terrainTextures,int terrainModifier,int terrainRadius) {
+    public Terrain(float gridX, float gridZ, TerrainTextures terrainTextures, int terrainModifier, int terrainRadius) {
         this.x = gridX * SIZE;
         this.z = gridZ * SIZE;
-        this.terrainModifier=terrainModifier;
-        this.terrainRadius=terrainRadius;
-        this.grid = new Grid((int) (SIZE*4));
-        this.terrainTextures=terrainTextures;
-        if(terrainTextures!=null)this.mesh = generateTerrain(new Material(0,0,terrainTextures.getFont()));
+        this.terrainModifier = terrainModifier;
+        this.terrainRadius = terrainRadius;
+        this.grid = new Grid((int) (SIZE * 4));
+        this.terrainTextures = terrainTextures;
+        if (terrainTextures != null) this.mesh = generateTerrain(new Material(0, 0, terrainTextures.getFont()));
     }
 
-    public boolean contains(float posX,float posZ){
-        if(posX>x && posZ>z && posX<x+SIZE && posZ<z+SIZE)return true;
-        return false;
+    public boolean contains(float posX, float posZ) {
+        return posX > x && posZ > z && posX < x + SIZE && posZ < z + SIZE;
     }
 
     public float getX() {
@@ -47,18 +47,18 @@ public class Terrain {
         return mesh;
     }
 
-    public void create(){
+    public void create() {
         mesh.create();
-        if(!terrainTextures.isCreated())terrainTextures.create();
+        if (!terrainTextures.isCreated()) terrainTextures.create();
     }
 
-    public void destroy(){
+    public void destroy() {
         this.mesh.destroy();
         this.terrainTextures.destroy();
     }
 
-    public float getHeight(int x,int z){
-        return grid.get(x*4,z*4);
+    public float getHeight(int x, int z) {
+        return grid.get(x * 4, z * 4);
     }
 
     public TerrainTextures getTerrainTextures() {
@@ -71,7 +71,7 @@ public class Terrain {
         generator.setRadius(this.terrainRadius);
         generator.setSeed(Generators.rollSeed());
         generator.generate(grid);
-        int VERTEX_COUNT =  grid.getHeight();
+        int VERTEX_COUNT = grid.getHeight();
 
         int count = VERTEX_COUNT * VERTEX_COUNT;
         Vector3f[] vertices = new Vector3f[count];
@@ -81,7 +81,7 @@ public class Terrain {
         int vertexPointer = 0;
         for (int i = 0; i < VERTEX_COUNT; i++) {
             for (int j = 0; j < VERTEX_COUNT; j++) {
-                vertices[vertexPointer] = new Vector3f((float) j / ((float) VERTEX_COUNT - 1) * SIZE, grid.get(j,i), (float) i / ((float) VERTEX_COUNT - 1) * SIZE);
+                vertices[vertexPointer] = new Vector3f((float) j / ((float) VERTEX_COUNT - 1) * SIZE, grid.get(j, i), (float) i / ((float) VERTEX_COUNT - 1) * SIZE);
                 normals[vertexPointer] = new Vector3f(0, 1, 0);
                 textureCoords[vertexPointer] = new Vector2f((float) j / ((float) VERTEX_COUNT - 1), (float) i / ((float) VERTEX_COUNT - 1));
                 vertexPointer++;

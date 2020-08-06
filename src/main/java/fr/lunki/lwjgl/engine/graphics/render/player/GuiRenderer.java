@@ -26,7 +26,7 @@ public class GuiRenderer extends Renderer<GuiTexture> {
 
     public GuiRenderer() {
         super(Main.window, new Shader("shaders/guiVertex.glsl", "shaders/guiFragment.glsl"));
-        this.mesh = new TexturedMesh(new Vector3f[]{new Vector3f(-1, 1, 0), new Vector3f(-1, -1, 0), new Vector3f(1, 1, 0), new Vector3f(1, -1, 0)}, new int[4],new Vector3f[0],new Vector2f[0],null);
+        this.mesh = new TexturedMesh(new Vector3f[]{new Vector3f(-1, 1, 0), new Vector3f(-1, -1, 0), new Vector3f(1, 1, 0), new Vector3f(1, -1, 0)}, new int[4], new Vector3f[0], new Vector2f[0], null);
     }
 
     public void guiRenderer(HashMap<Material, ArrayList<GuiTexture>> guisToRender) {

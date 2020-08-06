@@ -5,14 +5,11 @@ import fr.lunki.lwjgl.engine.graphics.Shader;
 import fr.lunki.lwjgl.engine.graphics.meshes.RawMesh;
 import fr.lunki.lwjgl.engine.graphics.meshes.TexturedMesh;
 import fr.lunki.lwjgl.engine.maths.Matrix4f;
-import fr.lunki.lwjgl.engine.objects.Light;
 import fr.lunki.lwjgl.engine.objects.gameobjects.TexturedGameObject;
 import fr.lunki.lwjgl.engine.objects.player.Camera;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL30;
-
-import java.util.ArrayList;
 
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.glBindTexture;

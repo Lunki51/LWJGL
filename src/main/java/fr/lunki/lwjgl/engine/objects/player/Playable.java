@@ -14,7 +14,7 @@ public abstract class Playable extends TexturedGameObject {
 
     public Playable(Vector3f position, Vector3f rotation, Vector3f scale, TexturedMesh mesh) {
         super(position, rotation, scale, mesh);
-        currentSpeed = new Vector3f(0,0,0);
+        currentSpeed = new Vector3f(0, 0, 0);
         currentRotation = rotation;
     }
 

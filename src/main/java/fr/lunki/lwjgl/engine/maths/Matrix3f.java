@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class Matrix3f {
 
     public static final int SIZE = 3;
-    private float[] elements = new float[SIZE * SIZE];
+    private final float[] elements = new float[SIZE * SIZE];
 
     public float get(int x, int y) {
         return elements[y * SIZE + x];
@@ -25,8 +25,8 @@ public class Matrix3f {
         float det = getDet(matrix4f);
         if (det != 0) {
             float val = 1 / det;
-            for (int i = 0; i < matrix4f.SIZE; i++) {
-                for (int j = 0; j < matrix4f.SIZE; j++) {
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE; j++) {
                     matrix.set(i, j, matrix4f.get(i, j) * val);
                 }
             }
@@ -39,8 +39,8 @@ public class Matrix3f {
         Matrix2f matrix2f = new Matrix2f();
         int[][] pos = {{0, 0}, {1, 0}, {0, 1}, {1, 1}};
         int lvl = 0;
-        for (int i = 0; i < matrix3f.SIZE; i++) {
-            for (int j = 0; j < matrix3f.SIZE; j++) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
                 if (i != ignoreX && j != ignoreY) {
                     matrix2f.set(pos[lvl][0], pos[lvl][1], matrix3f.get(i, j));
                     lvl++;
@@ -54,11 +54,7 @@ public class Matrix3f {
     public static float getDet(Matrix3f matrix3f) {
 
         float det = matrix3f.get(0, 0) * Matrix2f.getDet(getUnderMatrix(0, 0, matrix3f)) - matrix3f.get(1, 0) * Matrix2f.getDet(getUnderMatrix(1, 0, matrix3f)) + matrix3f.get(2, 0) * Matrix2f.getDet(getUnderMatrix(2, 0, matrix3f));
-        if (det != 0) {
-            return det;
-        } else {
-            return 0;
-        }
+        return det;
 
     }
 

@@ -16,9 +16,9 @@ public class Vector3f {
     }
 
     public Vector3f(Vector2f vector2f, float z) {
-        this.x=vector2f.getX();
-        this.y=vector2f.getY();
-        this.z=z;
+        this.x = vector2f.getX();
+        this.y = vector2f.getY();
+        this.z = z;
     }
 
     public void set(float x, float y, float z) {
@@ -48,8 +48,8 @@ public class Vector3f {
         return (float) Math.sqrt(vector.getX() * vector.getX() + vector.getY() * vector.getY() + vector.getZ() * vector.getZ());
     }
 
-    public static Vector3f inverse(Vector3f vector3f){
-        return new Vector3f(1/vector3f.getX(),1/vector3f.getY(),1/vector3f.getZ());
+    public static Vector3f inverse(Vector3f vector3f) {
+        return new Vector3f(1 / vector3f.getX(), 1 / vector3f.getY(), 1 / vector3f.getZ());
     }
 
     public static Vector3f normalize(Vector3f vector) {
@@ -76,7 +76,6 @@ public class Vector3f {
     }
 
 
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -90,9 +89,7 @@ public class Vector3f {
             return false;
         if (Float.floatToIntBits(y) != Float.floatToIntBits(other.y))
             return false;
-        if (Float.floatToIntBits(z) != Float.floatToIntBits(other.z))
-            return false;
-        return true;
+        return Float.floatToIntBits(z) == Float.floatToIntBits(other.z);
     }
 
     public float getX() {

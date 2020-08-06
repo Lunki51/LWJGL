@@ -4,11 +4,11 @@ import fr.lunki.lwjgl.engine.graphics.material.Texture;
 
 public class TerrainTextures {
 
-    private Texture font;
-    private Texture elemR;
-    private Texture elemG;
-    private Texture elemB;
-    private Texture map;
+    private final Texture font;
+    private final Texture elemR;
+    private final Texture elemG;
+    private final Texture elemB;
+    private final Texture map;
     private boolean created = false;
 
     public TerrainTextures(Texture font, Texture elemR, Texture elem2, Texture elemB, Texture map) {
@@ -19,16 +19,16 @@ public class TerrainTextures {
         this.map = map;
     }
 
-    public void create(){
+    public void create() {
         this.font.create();
         this.elemR.create();
         this.elemG.create();
         this.elemB.create();
         this.map.create();
-        created=true;
+        created = true;
     }
 
-    public void destroy(){
+    public void destroy() {
         this.font.destroy();
         this.elemR.destroy();
         this.elemG.destroy();
@@ -36,7 +36,7 @@ public class TerrainTextures {
         this.map.destroy();
     }
 
-    public boolean isCreated(){
+    public boolean isCreated() {
         return this.created;
     }
 

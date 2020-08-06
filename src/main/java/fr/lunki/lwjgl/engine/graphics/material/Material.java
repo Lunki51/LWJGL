@@ -2,7 +2,7 @@ package fr.lunki.lwjgl.engine.graphics.material;
 
 public class Material {
 
-    private float shininess =0;
+    private float shininess = 0;
     private float specular = 0;
     private boolean transparent = false;
     private boolean usingFakeLighting = false;
@@ -32,22 +32,22 @@ public class Material {
         this.texture = texture;
     }
 
-    public int getAtlasSize(){
+    public int getAtlasSize() {
         return this.atlasSize;
     }
 
-    public void setTransparent(){
-        this.transparent=true;
+    public void setTransparent() {
+        this.transparent = true;
     }
 
-    public void setUsingFakeLighting(){
-        this.usingFakeLighting=true;
+    public void setUsingFakeLighting() {
+        this.usingFakeLighting = true;
     }
 
-    public void create(){
-        if(!created){
+    public void create() {
+        if (!created) {
             this.texture.create();
-            created=true;
+            created = true;
         }
 
     }
@@ -72,7 +72,7 @@ public class Material {
         return texture;
     }
 
-    public void destroy(){
+    public void destroy() {
         texture.destroy();
     }
 }
