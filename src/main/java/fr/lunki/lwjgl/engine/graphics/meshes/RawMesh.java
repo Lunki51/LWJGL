@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-public abstract class RawMesh {
+public class RawMesh {
 
     protected Vector3f[] position;
     protected int[] indices;

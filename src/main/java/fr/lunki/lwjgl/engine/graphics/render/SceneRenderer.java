@@ -1,15 +1,20 @@
 package fr.lunki.lwjgl.engine.graphics.render;
 
 import fr.lunki.lwjgl.Main;
+import fr.lunki.lwjgl.engine.graphics.Shader;
+import fr.lunki.lwjgl.engine.graphics.meshes.RawMesh;
+import fr.lunki.lwjgl.engine.graphics.meshes.TexturedMesh;
 import fr.lunki.lwjgl.engine.graphics.render.entities.ColoredEntityRenderer;
 import fr.lunki.lwjgl.engine.graphics.render.entities.TexturedEntityRenderer;
 import fr.lunki.lwjgl.engine.graphics.render.environment.SkyBoxRenderer;
 import fr.lunki.lwjgl.engine.graphics.render.environment.TerrainRenderer;
 import fr.lunki.lwjgl.engine.graphics.render.player.GuiRenderer;
+import fr.lunki.lwjgl.engine.maths.Vector3f;
 import fr.lunki.lwjgl.engine.objects.Light;
 import fr.lunki.lwjgl.engine.objects.Scene;
 import fr.lunki.lwjgl.engine.objects.SkyBox;
 import fr.lunki.lwjgl.engine.objects.player.Camera;
+import org.lwjgl.opengl.GL15;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
@@ -24,13 +29,14 @@ public class SceneRenderer extends Renderer<Scene> {
     SkyBoxRenderer skyBoxRenderer;
     TerrainRenderer terrainRenderer;
     GuiRenderer guiRenderer;
-
+    private int gPosition,gNormal,gColorSpec;
     private int gBuffer;
+    private RawMesh screenMesh = new RawMesh(new Vector3f[]{new Vector3f(-1,-1,0),new Vector3f(1,-1,0),new Vector3f(-1,1,0),new Vector3f(1,1,0)},new int[]{1,2,0,1,3,2});
 
 
 
     public SceneRenderer() {
-        super(Main.window, null);
+        super(Main.window, new Shader("shaders/lightVertex.glsl","shaders/lightFragment.glsl"));
         coloredEntityRenderer = new ColoredEntityRenderer();
         texturedEntityRenderer = new TexturedEntityRenderer();
         skyBoxRenderer = new SkyBoxRenderer();
@@ -45,32 +51,67 @@ public class SceneRenderer extends Renderer<Scene> {
         ArrayList<Light> lights = toRender.getLights();
         SkyBox skybox = toRender.getSkyBox();
 
-        if(lights==null)lights = new ArrayList<>();
+        glBindFramebuffer(GL_FRAMEBUFFER,gBuffer);
+        glClearColor(0,0,0,1);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        if(skybox!=null)skyBoxRenderer.renderSkyBox(skybox,camera);
-        if(toRender.getTerrainsToRender()!=null)terrainRenderer.renderTerrain(toRender.getTerrainsToRender(),camera,lights);
-
-
+        if(toRender.getTerrainsToRender()!=null)terrainRenderer.renderTerrain(toRender.getTerrainsToRender(),camera);
 
         if(camera!=null){
             if(toRender.getColoredObjectsToRender()!=null){
-                coloredEntityRenderer.renderObject(toRender.getColoredObjectsToRender(),camera,lights);
+                coloredEntityRenderer.renderObject(toRender.getColoredObjectsToRender(),camera);
             }
             if(toRender.getTexturedObjectsToRender()!=null){
-                texturedEntityRenderer.renderObject(toRender.getTexturedObjectsToRender(),camera,lights);
+                texturedEntityRenderer.renderObject(toRender.getTexturedObjectsToRender(),camera);
             }
-
-
-
         }
 
+
+        glBindFramebuffer(GL_FRAMEBUFFER,0);
+        renderLights(camera,lights);
+        glBindFramebuffer(GL_READ_FRAMEBUFFER,gBuffer);
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER,0);
+        glBlitFramebuffer(0,0,window.getWidth(),window.getHeight(),0,0,window.getHeight(),window.getWidth(),GL_DEPTH_BUFFER_BIT,GL_NEAREST);
+        glBindFramebuffer(GL_FRAMEBUFFER,0);
+        if(skybox!=null)skyBoxRenderer.renderSkyBox(skybox,camera);
         if(toRender.getGuisToRender()!=null)guiRenderer.guiRenderer(toRender.getGuisToRender());
 
+    }
+
+    //TODO Remake the lights calculation
+    //TODO Debug the color of the objects rendered
+    public void renderLights(Camera camera,ArrayList<Light> lights){
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+        shader.bind();
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, gPosition);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, gNormal);
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, gColorSpec);
+        shader.setUniform("viewPos",camera.getPosition());
+        glBindVertexArray(this.screenMesh.getVAO());
+        glEnableVertexAttribArray(0);
+        glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, this.screenMesh.getIBO());
+
+        for(int i=0;i<lights.size();i++){
+            shader.setUniform("lights["+i+"].Position",lights.get(i).getPosition());
+            shader.setUniform("lights["+i+"].Color",lights.get(i).getColour());
+        }
+        glDrawElements(GL_TRIANGLES, this.screenMesh.getIndices().length, GL_UNSIGNED_INT, 0);
+
+        glDisableVertexAttribArray(0);
+        glBindVertexArray(0);
+        shader.unbind();
 
     }
 
     @Override
     public void create() {
+
+        shader.create();
         coloredEntityRenderer.create();
         texturedEntityRenderer.create();
         skyBoxRenderer.create();
@@ -79,11 +120,9 @@ public class SceneRenderer extends Renderer<Scene> {
         gBuffer = glGenFramebuffers();
 
 
-
+        this.screenMesh.create();
 
         glBindFramebuffer(GL_FRAMEBUFFER,gBuffer);
-
-        int gPosition,gNormal,gColorSpec;
 
         gPosition = glGenTextures();
         glBindTexture(GL_TEXTURE_2D,gPosition);
@@ -109,6 +148,11 @@ public class SceneRenderer extends Renderer<Scene> {
 
         glDrawBuffers(new int[]{ GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2});
 
+        int rboDepth = glGenRenderbuffers();
+        glBindRenderbuffer(GL_RENDERBUFFER,rboDepth);
+        glRenderbufferStorage(GL_RENDERBUFFER,GL_DEPTH_COMPONENT,window.getWidth(),window.getHeight());
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_RENDERBUFFER,rboDepth);
+        if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)System.err.println("Framebuffer not complete");
         glBindFramebuffer(GL_FRAMEBUFFER,0);
 
     }

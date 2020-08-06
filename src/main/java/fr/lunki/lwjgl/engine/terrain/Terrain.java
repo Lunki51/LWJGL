@@ -8,6 +8,7 @@ import fr.lunki.lwjgl.engine.graphics.meshes.TexturedMesh;
 import fr.lunki.lwjgl.engine.maths.Vector2f;
 import fr.lunki.lwjgl.engine.maths.Vector3f;
 
+//TODO Rework for better looking stuff
 public class Terrain {
     private static final float SIZE = 512;
     private static final float MAX_PIXEL_COLOUR = 256*256*256;

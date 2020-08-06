@@ -9,13 +9,19 @@ out vec3 outNormals;
 out vec3 outColor;
 
 uniform mat4 transform;
+uniform mat4 projection;
+uniform mat4 view;
 
 void main() {
 
-    outPosition = (transform * vec4(position,1.0)).xyz;
+    vec4 worldPos = transform * vec4(position,1.0);
+
+    outPosition = worldPos.xyz;
 
     outColor=color;
 
     outNormals = normals;
+
+    gl_Position = projection * view * worldPos;
 
 }

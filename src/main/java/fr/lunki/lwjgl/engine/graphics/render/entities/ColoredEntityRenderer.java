@@ -22,7 +22,7 @@ public class ColoredEntityRenderer extends EntityRenderer<ColoredMesh,ColoredObj
     }
 
     @Override
-    protected void prepareMesh(RawMesh mesh, Camera camera, ArrayList<Light> lights) {
+    protected void prepareMesh(RawMesh mesh, Camera camera) {
 
         glBindVertexArray(mesh.getVAO());
         glEnableVertexAttribArray(0);
@@ -31,14 +31,6 @@ public class ColoredEntityRenderer extends EntityRenderer<ColoredMesh,ColoredObj
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,mesh.getIBO());
         shader.setUniform("view", Matrix4f.view(camera.getPosition(),camera.getRotation()));
-        /*
-        for(int i=0;i<lights.size();i++){
-            shader.setUniform("lightPosition["+i+"]", lights.get(i).getPosition());
-            shader.setUniform("lightColour["+i+"]", lights.get(i).getColour());
-            shader.setUniform("attenuation["+i+"]",lights.get(i).getAttenuation());
-        }
-
-         */
 
     }
 

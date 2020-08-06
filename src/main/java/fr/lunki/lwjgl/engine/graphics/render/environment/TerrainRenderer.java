@@ -23,15 +23,15 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class TerrainRenderer extends MeshRenderer<RawMesh,Terrain> {
     public TerrainRenderer() {
-        super(Main.window , new Shader("shaders/terrainVertex.glsl","shaders/terrainFragment.glsl"));
+        //TODO Implements the new render method
+        super(Main.window , new Shader("shaders/texturedVertex.glsl","shaders/terrainFragment.glsl"));
     }
 
-    public void renderTerrain(HashMap<TexturedMesh,ArrayList<Terrain>> terrainsToRender, Camera camera, ArrayList<Light> lights){
+    public void renderTerrain(HashMap<TexturedMesh,ArrayList<Terrain>> terrainsToRender, Camera camera){
         shader.bind();
-        ArrayList<Light> lightsToRender = prepareLights(lights);
 
         for(TexturedMesh mesh : terrainsToRender.keySet()){
-            prepareTerrain(mesh,camera,lightsToRender);
+            prepareTerrain(mesh,camera);
             for(Terrain terrain : terrainsToRender.get(mesh)){
                 bindTextures(terrain);
                 render(terrain);
@@ -58,7 +58,7 @@ public class TerrainRenderer extends MeshRenderer<RawMesh,Terrain> {
         shader.setUniform("blendMap",4);
     }
 
-    protected void prepareTerrain(TexturedMesh mesh, Camera camera, ArrayList<Light> lights) {
+    protected void prepareTerrain(TexturedMesh mesh, Camera camera) {
         GL30.glBindVertexArray(mesh.getVAO());
         GL30.glEnableVertexAttribArray(0);
         GL30.glEnableVertexAttribArray(1);
@@ -69,11 +69,6 @@ public class TerrainRenderer extends MeshRenderer<RawMesh,Terrain> {
         shader.setUniform("reflectivity", mesh.getMaterial().getSpecular());
         shader.setUniform("view", Matrix4f.view(camera.getPosition(), camera.getRotation()));
         shader.setUniform("projection", window.getProjection());
-        for(int i=0;i<lights.size();i++){
-            shader.setUniform("lightPosition["+i+"]", lights.get(i).getPosition());
-            shader.setUniform("lightColour["+i+"]", lights.get(i).getColour());
-            shader.setUniform("attenuation["+i+"]",lights.get(i).getAttenuation());
-        }
         shader.setUniform("skyColour",window.BACKGROUND);
     }
 

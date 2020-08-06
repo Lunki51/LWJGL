@@ -17,6 +17,8 @@ import java.util.*;
 
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
+import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
+import static org.lwjgl.opengl.GL30.glBindFramebuffer;
 
 public abstract class EntityRenderer<K extends RawMesh,T extends GameObject> extends MeshRenderer<K,T> {
 
@@ -24,14 +26,13 @@ public abstract class EntityRenderer<K extends RawMesh,T extends GameObject> ext
         super(window,shader);
     }
 
-    public void renderObject(HashMap<K, ArrayList<T>> toRender, Camera camera, ArrayList<Light> lights){
+    public void renderObject(HashMap<K, ArrayList<T>> toRender, Camera camera){
         shader.bind();
         enableCulling();
         shader.setUniform("projection", window.getProjection());
         TreeMap<Float,T> transparentsObject = new TreeMap<>();
-        ArrayList<Light> lightsToRender = prepareLights(lights);
         for (K mesh : toRender.keySet()) {
-            prepareMesh(mesh,camera,lightsToRender);
+            prepareMesh(mesh,camera);
             List<T> batch = toRender.get(mesh);
             for (T object : batch) {
                 if(object.isShouldRender()){
@@ -43,17 +44,19 @@ public abstract class EntityRenderer<K extends RawMesh,T extends GameObject> ext
                             transparentsObject.put(Vector3f.length(Vector3f.subtract(camera.getPosition(),object.getPosition())),object);
                         }
                     }else{
-                        GL11.glDrawElements(GL_TRIANGLES, mesh.getIndices().length, GL_UNSIGNED_INT, 0);render(object);
-
+                        GL11.glDrawElements(GL_TRIANGLES, mesh.getIndices().length, GL_UNSIGNED_INT, 0);
+                        render(object);
                     }
                 }
             }
 
             unbindMesh();
         }
+        //TODO Render the transparents objects somewhere else
+        //glBindFramebuffer(GL_FRAMEBUFFER,0);
         for(Float f : transparentsObject.descendingKeySet()){
             T object = transparentsObject.get(f);
-            prepareMesh(object.getMesh(),camera,lightsToRender);
+            prepareMesh(object.getMesh(),camera);
             render(object);
             GL11.glDrawElements(GL_TRIANGLES, object.getMesh().getIndices().length, GL_UNSIGNED_INT, 0);
             unbindMesh();
@@ -80,7 +83,7 @@ public abstract class EntityRenderer<K extends RawMesh,T extends GameObject> ext
 
     protected abstract void render(T toRender);
 
-    protected abstract void prepareMesh(RawMesh mesh, Camera camera,ArrayList<Light> lights);
+    protected abstract void prepareMesh(RawMesh mesh, Camera camera);
 
     protected abstract void unbindMesh();
 }

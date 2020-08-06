@@ -27,7 +27,7 @@ public class TexturedEntityRenderer extends EntityRenderer<TexturedMesh, Texture
     }
 
     @Override
-    protected void prepareMesh(RawMesh mesh, Camera camera, ArrayList<Light> lights) {
+    protected void prepareMesh(RawMesh mesh, Camera camera) {
         TexturedMesh texturedMesh = (TexturedMesh) mesh;
         if (texturedMesh.getMaterial().isTransparent()) {
             enableBlend();
@@ -42,22 +42,6 @@ public class TexturedEntityRenderer extends EntityRenderer<TexturedMesh, Texture
         glActiveTexture(GL13.GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texturedMesh.getMaterial().getTexture().getImageID());
         shader.setUniform("view", Matrix4f.view(camera.getPosition(), camera.getRotation()));
-        /*
-        shader.setUniform("shineDamper", texturedMesh.getMaterial().getShininess());
-        shader.setUniform("reflectivity", texturedMesh.getMaterial().getReflectivity());
-
-
-        for(int i=0;i<lights.size();i++){
-            shader.setUniform("lightPosition["+i+"]", lights.get(i).getPosition());
-            shader.setUniform("lightColour["+i+"]", lights.get(i).getColour());
-            shader.setUniform("attenuation["+i+"]",lights.get(i).getAttenuation());
-        }
-
-
-        shader.setUniform("useFakeLighting",texturedMesh.getMaterial().isUsingFakeLighting());
-        shader.setUniform("skyColour",window.BACKGROUND);
-
-         */
     }
 
     @Override

@@ -24,6 +24,8 @@ public class TexturedMesh extends NormalMesh {
         this.index = index;
     }
 
+
+    //TODO Check if the texture offset work
     public float getTextureXOffset() {
         Material atlasMaterial = getMaterial();
         int column = this.index % atlasMaterial.getAtlasSize();

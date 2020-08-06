@@ -13,7 +13,7 @@ public class SkyBox{
     private CubeMapTexture texture;
 
     public SkyBox(int size, String[] texture_files) {
-        this.mesh = new TexturedMesh(getPositions(size),getIndices(),new Vector3f[0],new Vector2f[0],null);
+        this.mesh = new RawMesh(getPositions(size),getIndices());
         this.texture = new CubeMapTexture(texture_files);
     }
 

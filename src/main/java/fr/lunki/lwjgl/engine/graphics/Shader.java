@@ -31,6 +31,7 @@ public class Shader {
 
         if(glGetShaderi(vertexID,GL_COMPILE_STATUS) == GL_FALSE){
             System.err.println("Vertex shader error : " + glGetShaderInfoLog(vertexID));
+            System.err.println("Vertex shader "+vertexFile);
             return;
         }
 
@@ -39,7 +40,8 @@ public class Shader {
         glCompileShader(fragmentID);
 
         if(glGetShaderi(fragmentID,GL_COMPILE_STATUS) == GL_FALSE){
-            System.err.println("Vertex shader error : " + glGetShaderInfoLog(fragmentID));
+            System.err.println("Fragment shader error : " + glGetShaderInfoLog(fragmentID));
+            System.err.println("Fragment shader "+fragmentFile);
             return;
         }
 
@@ -81,8 +83,6 @@ public class Shader {
     public void setUniform(String name, Vector2f value) {
         GL20.glUniform2f(getUniformLocation(name), value.getX(), value.getY());
     }
-
-
 
 
     public void setUniform(String name, Matrix4f value) {

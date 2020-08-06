@@ -3,6 +3,8 @@ package fr.lunki.lwjgl.engine.objects;
 import fr.lunki.lwjgl.engine.maths.Vector3f;
 
 public class Light {
+    //TODO Rework for new light rendering
+
     private Vector3f position;
     private Vector3f colour;
     private Vector3f attenuation = new Vector3f(1,0,0);

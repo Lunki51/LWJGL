@@ -17,6 +17,4 @@ void main() {
 
     gAlbedoSpec.rgb = outColor;
 
-
-
 }
