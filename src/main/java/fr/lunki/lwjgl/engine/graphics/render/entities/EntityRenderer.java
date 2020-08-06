@@ -10,7 +10,6 @@ import fr.lunki.lwjgl.engine.objects.gameobjects.GameObject;
 import fr.lunki.lwjgl.engine.objects.Light;
 import fr.lunki.lwjgl.engine.objects.gameobjects.TexturedGameObject;
 import fr.lunki.lwjgl.engine.objects.player.Camera;
-import javafx.scene.shape.Mesh;
 import org.lwjgl.opengl.GL11;
 
 import java.util.*;

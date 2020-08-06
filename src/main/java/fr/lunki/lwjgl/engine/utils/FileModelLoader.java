@@ -1,6 +1,5 @@
 package fr.lunki.lwjgl.engine.utils;
 
-import com.sun.istack.internal.Nullable;
 import fr.lunki.lwjgl.engine.graphics.material.EmbeedFlatTexture;
 import fr.lunki.lwjgl.engine.graphics.material.FlatTexture;
 import fr.lunki.lwjgl.engine.graphics.material.Material;
@@ -26,7 +25,7 @@ import static org.lwjgl.assimp.Assimp.*;
 
 public class FileModelLoader {
 
-    public static TexturedMesh[] readModelFile(String filename, @Nullable String dataFile, @Nullable int flags) {
+    public static TexturedMesh[] readModelFile(String filename, String dataFile, int flags) {
         AIScene fileScene = aiImportFile("res/model/" + filename, flags);
         if (fileScene == null) System.err.println("Impossible de lire " + fileScene);
         PointerBuffer aiMats = fileScene.mMaterials();
