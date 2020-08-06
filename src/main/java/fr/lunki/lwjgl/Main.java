@@ -23,7 +23,7 @@ public class Main {
 
     public static SceneRenderer renderer = new SceneRenderer();
     public static Scene scene = new Scene();
-    public static Camera camera = new Camera(new Vector3f(0, 0, 5), new Vector3f(0, 0, 0), new PlayerEntity(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), FileModelLoader.readModelFile("eric.fbx", "player/", aiProcess_Triangulate | aiProcess_FixInfacingNormals | aiProcess_JoinIdenticalVertices)[0], 2));
+    public static Camera camera = new Camera(new Vector3f(0, 0, 5), new Vector3f(0, 0, 0), new PlayerEntity(new Vector3f(0, 0, 0), new Vector3f(180, 0, 180), new Vector3f(0.012f, 0.012f, 0.012f), FileModelLoader.readModelFile("eric.fbx", "player/", aiProcess_Triangulate | aiProcess_FixInfacingNormals | aiProcess_JoinIdenticalVertices)[0], 2));
 
     public static void main(String[] args) {
 

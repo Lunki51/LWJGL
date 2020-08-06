@@ -72,4 +72,7 @@ public class Camera {
     }
 
 
+    public Playable getPlayerEntity() {
+        return playerEntity;
+    }
 }

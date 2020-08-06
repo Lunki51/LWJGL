@@ -94,6 +94,7 @@ public class Scene {
 
     public void setCamera(Camera camera) {
         this.camera = camera;
+        addGameObject(camera.getPlayerEntity());
     }
 
     public void destroy() {
