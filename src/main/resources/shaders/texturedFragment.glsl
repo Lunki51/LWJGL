@@ -6,7 +6,7 @@ in vec2 outextureCoord;
 
 layout (location = 0) out vec3 gPosition;
 layout (location = 1) out vec3 gNormal;
-layout (location = 2) out vec4 gAlbedoSpec;
+layout (location = 2) out vec4 gColorSpec;
 
 uniform sampler2D tex;
 
@@ -16,7 +16,7 @@ void main() {
 
     gNormal = outNormals;
 
-    gAlbedoSpec.rgb = texture(tex,outextureCoord).rgb;
-    gAlbedoSpec.a = 0;
+    gColorSpec.rgb = texture(tex,outextureCoord).rgb;
+    gColorSpec.a = 0;
 
 }

@@ -81,20 +81,21 @@ public class SceneRenderer extends Renderer<Scene> {
     //TODO Debug the color of the objects rendered
     public void renderLights(Camera camera, ArrayList<Light> lights) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
         shader.bind();
+
+        glBindVertexArray(this.screenMesh.getVAO());
+        glEnableVertexAttribArray(0);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, gPosition);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, gNormal);
         glActiveTexture(GL_TEXTURE2);
         glBindTexture(GL_TEXTURE_2D, gColorSpec);
-        shader.setUniform("viewPos", camera.getPosition());
-        glBindVertexArray(this.screenMesh.getVAO());
-        glEnableVertexAttribArray(0);
         glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, this.screenMesh.getIBO());
-
+        shader.setUniform("viewPos", camera.getPosition());
+        shader.setUniform("gPosition", 0);
+        shader.setUniform("gNormal", 1);
+        shader.setUniform("gColorSpec", 2);
         for (int i = 0; i < lights.size(); i++) {
             shader.setUniform("lights[" + i + "].Position", lights.get(i).getPosition());
             shader.setUniform("lights[" + i + "].Color", lights.get(i).getColour());
@@ -117,7 +118,6 @@ public class SceneRenderer extends Renderer<Scene> {
         terrainRenderer.create();
         guiRenderer.create();
         gBuffer = glGenFramebuffers();
-
 
         this.screenMesh.create();
 

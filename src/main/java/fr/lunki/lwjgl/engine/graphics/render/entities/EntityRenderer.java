@@ -53,6 +53,7 @@ public abstract class EntityRenderer<K extends RawMesh, T extends GameObject> ex
         }
         //TODO Render the transparents objects somewhere else
         //glBindFramebuffer(GL_FRAMEBUFFER,0);
+
         for (Float f : transparentsObject.descendingKeySet()) {
             T object = transparentsObject.get(f);
             prepareMesh(object.getMesh(), camera);

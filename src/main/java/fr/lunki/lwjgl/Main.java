@@ -59,7 +59,6 @@ public class Main {
             for (int i = 0; i < 10; i++) {
                 scene.addGameObject(new TexturedGameObject(new Vector3f((float) Math.random() * 20, 0, (float) Math.random() * 20), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), mesh));
             }
-
         }
 
 

@@ -6,7 +6,7 @@ in vec3 outColor;
 
 layout (location = 0) out vec3 gPosition;
 layout (location = 1) out vec3 gNormal;
-layout (location = 2) out vec4 gAlbedoSpec;
+layout (location = 2) out vec4 gColorSpec;
 
 
 void main() {
@@ -15,6 +15,8 @@ void main() {
 
     gNormal = outNormals;
 
-    gAlbedoSpec.rgb = outColor;
+    gColorSpec.rgb = outColor;
+
+    gColorSpec.a = 0;
 
 }

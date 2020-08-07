@@ -99,20 +99,4 @@ public class TerrainRenderer extends MeshRenderer<RawMesh, Terrain> {
         GL30.glBindVertexArray(0);
     }
 
-    public ArrayList<Light> prepareLights(ArrayList<Light> lights) {
-        ArrayList<Light> lightsToRender = new ArrayList<>();
-        if (lights.size() != 6) {
-            for (int i = 0; i < 6; i++) {
-                if (i < lights.size()) {
-                    lightsToRender.add(lights.get(i));
-                } else {
-                    lightsToRender.add(new Light(new Vector3f(1, 1, 1), new Vector3f(1, 1, 1)));
-                }
-            }
-        } else {
-            lightsToRender = lights;
-        }
-        return lightsToRender;
-    }
-
 }
