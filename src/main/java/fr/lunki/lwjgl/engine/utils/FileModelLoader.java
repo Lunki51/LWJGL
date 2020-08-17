@@ -1,9 +1,11 @@
 package fr.lunki.lwjgl.engine.utils;
 
+import fr.lunki.lwjgl.engine.graphics.components.specular.ConstantSpecular;
 import fr.lunki.lwjgl.engine.graphics.material.EmbeedFlatTexture;
 import fr.lunki.lwjgl.engine.graphics.material.FlatTexture;
 import fr.lunki.lwjgl.engine.graphics.material.Material;
 import fr.lunki.lwjgl.engine.graphics.material.Texture;
+import fr.lunki.lwjgl.engine.graphics.meshes.RawMesh;
 import fr.lunki.lwjgl.engine.graphics.meshes.TexturedMesh;
 import fr.lunki.lwjgl.engine.maths.Vector2f;
 import fr.lunki.lwjgl.engine.maths.Vector3f;
@@ -23,7 +25,7 @@ import static org.lwjgl.assimp.Assimp.*;
 public class FileModelLoader {
 
     public static TexturedMesh[] readModelFile(String filename, String dataFile, int flags) {
-        AIScene fileScene = aiImportFile("res/model/" + filename, flags);
+        AIScene fileScene = aiImportFile("res/model/" + filename, flags | aiProcess_CalcTangentSpace);
         if (fileScene == null) System.err.println("Impossible de lire " + fileScene);
         PointerBuffer aiMats = fileScene.mMaterials();
 
@@ -53,19 +55,29 @@ public class FileModelLoader {
         Vector3f[] normals = processNormals(mesh);
         Vector2f[] textCoord = processTextCoords(mesh);
         Vector3f[] positions = processPosition(mesh);
+        Vector3f[] tangents = processTangents(mesh);
         int[] indices = processIndices(mesh);
-        return new TexturedMesh(positions, indices, normals, textCoord, materials.get(mesh.mMaterialIndex()));
+        return new TexturedMesh(positions, indices, normals,tangents, textCoord, materials.get(mesh.mMaterialIndex()));
     }
 
     public static Vector3f[] processNormals(AIMesh aiMesh) {
         AIVector3D.Buffer buffer = aiMesh.mNormals();
-        if (buffer == null) return new Vector3f[]{new Vector3f(1, 1, 1)};
-        Vector3f[] normals = new Vector3f[buffer.remaining()];
-        for (int i = 0; buffer.remaining() > 0; i++) {
+        ArrayList<Vector3f> vector3fs = new ArrayList<>();
+        while(buffer.hasRemaining()){
             AIVector3D vector3D = buffer.get();
-            normals[i] = new Vector3f(vector3D.x(), vector3D.y(), vector3D.z());
+            vector3fs.add(new Vector3f(vector3D.x(),vector3D.y(),vector3D.z()));
         }
-        return normals;
+        return vector3fs.toArray(new Vector3f[vector3fs.size()]);
+    }
+
+    public static Vector3f[] processTangents(AIMesh mesh){
+        ArrayList<Vector3f> vector3fs = new ArrayList<>();
+        AIVector3D.Buffer tangents = mesh.mTangents();
+        while(tangents.hasRemaining()){
+            AIVector3D vector3D = tangents.get();
+            vector3fs.add(new Vector3f(vector3D));
+        }
+        return vector3fs.toArray(new Vector3f[vector3fs.size()]);
     }
 
     public static Vector2f[] processTextCoords(AIMesh aiMesh) {
@@ -166,9 +178,9 @@ public class FileModelLoader {
             if (valid != -1) {
                 String path = aiPath.dataString();
                 if (path.contains(".fbm")) {
-                    return new Material(shininess, reflectivity, textures.get(path));
+                    return new Material(new ConstantSpecular(reflectivity), textures.get(path),null);
                 } else {
-                    return new Material(shininess, reflectivity, new FlatTexture(dataFile + path));
+                    return new Material(new ConstantSpecular(reflectivity), new FlatTexture(dataFile + path),null);
                 }
 
             }

@@ -1,5 +1,7 @@
 package fr.lunki.lwjgl.engine.maths;
 
+import org.lwjgl.assimp.AIVector3D;
+
 public class Vector3f {
     private float x, y, z;
 
@@ -21,11 +23,19 @@ public class Vector3f {
         this.z = z;
     }
 
+    public Vector3f(AIVector3D vector3D){
+        this.x =vector3D.x();
+        this.y=vector3D.y();
+        this.z=vector3D.z();
+    }
+
     public void set(float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
+
+
 
 
     public static Vector3f add(Vector3f vector1, Vector3f vector2) {

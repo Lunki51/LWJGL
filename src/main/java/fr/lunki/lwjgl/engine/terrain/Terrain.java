@@ -3,6 +3,7 @@ package fr.lunki.lwjgl.engine.terrain;
 import com.github.czyzby.noise4j.map.Grid;
 import com.github.czyzby.noise4j.map.generator.noise.NoiseGenerator;
 import com.github.czyzby.noise4j.map.generator.util.Generators;
+import fr.lunki.lwjgl.engine.graphics.components.specular.ConstantSpecular;
 import fr.lunki.lwjgl.engine.graphics.material.Material;
 import fr.lunki.lwjgl.engine.graphics.meshes.TexturedMesh;
 import fr.lunki.lwjgl.engine.maths.Vector2f;
@@ -28,7 +29,7 @@ public class Terrain {
         this.terrainRadius = terrainRadius;
         this.grid = new Grid((int) (SIZE * 4));
         this.terrainTextures = terrainTextures;
-        if (terrainTextures != null) this.mesh = generateTerrain(new Material(0, 0, terrainTextures.getFont()));
+        if (terrainTextures != null) this.mesh = generateTerrain(new Material(new ConstantSpecular(0), new ConstantSpecular(0), terrainTextures.getFont()));
     }
 
     public boolean contains(float posX, float posZ) {

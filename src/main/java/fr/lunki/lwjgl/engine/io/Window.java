@@ -9,8 +9,7 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glViewport;
+import static org.lwjgl.opengl.GL11.*;
 
 public class Window {
 
@@ -92,8 +91,8 @@ public class Window {
 
         if (Input.isMousePressed(GLFW_MOUSE_BUTTON_LEFT)) mouseState(true);
         if (Input.isKeyPressed(GLFW_KEY_ESCAPE)) glfwSetWindowShouldClose(window, true);
-        GL11.glClearColor(BACKGROUND.getX(), BACKGROUND.getY(), BACKGROUND.getZ(), 1.0f);
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+        glClearColor(BACKGROUND.getX(), BACKGROUND.getY(), BACKGROUND.getZ(), 1.0f);
+        glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         glfwPollEvents();
 
     }

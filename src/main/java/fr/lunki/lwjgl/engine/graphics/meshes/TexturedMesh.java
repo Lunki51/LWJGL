@@ -10,20 +10,32 @@ public class TexturedMesh extends NormalMesh {
     protected Material material;
     protected int index;
 
-    public TexturedMesh(Vector3f[] position, int[] indices, Vector3f[] normals, Vector2f[] textureCoord, Material material) {
-        super(position, indices, normals);
+    public   TexturedMesh(Vector3f[] position, int[] indices, Vector3f[] normals,Vector3f[] tangents, Vector2f[] textureCoord, Material material) {
+        super(position, indices, normals,tangents);
         this.textureCoord = textureCoord;
         this.material = material;
         this.index = 0;
     }
 
-    public TexturedMesh(Vector3f[] position, int[] indices, Vector3f[] normals, Vector2f[] textureCoord, Material material, int index) {
-        super(position, indices, normals);
+    public TexturedMesh(Vector3f[] position, int[] indices, Vector3f[] normals,Vector3f[] tangents, Vector2f[] textureCoord, Material material, int index) {
+        super(position, indices, normals,tangents);
         this.textureCoord = textureCoord;
         this.material = material;
         this.index = index;
     }
 
+    public TexturedMesh(Vector3f[] position, int[] indices, Vector3f[] normals, Vector2f[] textureCoord, Material material, int index) {
+        super(position,indices,normals);
+        this.textureCoord = textureCoord;
+        this.material = material;
+        this.index = index;
+    }
+    public TexturedMesh(Vector3f[] position, int[] indices, Vector3f[] normals, Vector2f[] textureCoord, Material material) {
+        super(position,indices,normals);
+        this.textureCoord = textureCoord;
+        this.material = material;
+        this.index = 0;
+    }
 
     //TODO Check if the texture offset work
     public float getTextureXOffset() {

@@ -1,12 +1,14 @@
 #version 460
 
-in layout(location = 0) vec3 position;
-in layout(location = 1) vec3 normals;
-in layout(location = 2) vec2 textureCoord;
+in vec3 aPosition;
+in vec3 aTangent;
+in vec3 aNormal;
+in vec2 aTextureCoord;
 
-out vec3 outPosition;
-out vec3 outNormals;
-out vec2 outextureCoord;
+out vec3 position;
+out vec3 normal;
+out vec2 textureCoord;
+out mat3 TBN;
 
 uniform mat4 transform;
 uniform mat4 projection;
@@ -14,13 +16,20 @@ uniform mat4 view;
 
 void main() {
 
-    vec4 worldPos = transform * vec4(position,1.0);
+    vec4 worldPos = transform * vec4(aPosition,1.0);
 
-    outPosition = worldPos.xyz;
+    vec3 aBitangent = cross(aNormal,aTangent);
 
-    outextureCoord=textureCoord;
+    vec3 T = normalize(vec3(transform*vec4(aTangent,0.0)));
+    vec3 B = normalize(vec3(transform*vec4(aBitangent,0.0)));
+    vec3 N = normalize(vec3(transform*vec4(aNormal,0.0)));
+    TBN = mat3(T,B,N);
 
-    outNormals = normals;
+    position = worldPos.xyz;
+
+    textureCoord=aTextureCoord;
+
+    normal = aNormal;
 
     gl_Position = projection * view * transform * vec4(position,1.0);
 

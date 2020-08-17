@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.*;
 
 public class TerrainRenderer extends MeshRenderer<RawMesh, Terrain> {
     public TerrainRenderer() {
@@ -65,8 +66,10 @@ public class TerrainRenderer extends MeshRenderer<RawMesh, Terrain> {
         GL30.glEnableVertexAttribArray(2);
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, mesh.getIBO());
         create();
-        shader.setUniform("shineDamper", mesh.getMaterial().getShininess());
-        shader.setUniform("reflectivity", mesh.getMaterial().getSpecular());
+        glActiveTexture(GL_TEXTURE5);
+        glBindTexture(GL_TEXTURE_2D,mesh.getMaterial().getSpecular().getImageID());
+        glActiveTexture(GL_TEXTURE6);
+        glBindTexture(GL_TEXTURE_2D,mesh.getMaterial().getNormalMap().getImageID());
         shader.setUniform("view", Matrix4f.view(camera.getPosition(), camera.getRotation()));
         shader.setUniform("projection", window.getProjection());
         shader.setUniform("skyColour", window.BACKGROUND);
@@ -74,7 +77,7 @@ public class TerrainRenderer extends MeshRenderer<RawMesh, Terrain> {
 
     protected void bindTextures(Terrain terrain) {
         TerrainTextures textures = terrain.getTerrainTextures();
-        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL13.glActiveTexture(GL_TEXTURE0);
         GL13.glBindTexture(GL_TEXTURE_2D, textures.getFont().getImageID());
         GL13.glActiveTexture(GL13.GL_TEXTURE1);
         GL13.glBindTexture(GL_TEXTURE_2D, textures.getR().getImageID());

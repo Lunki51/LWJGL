@@ -1,35 +1,35 @@
 package fr.lunki.lwjgl.engine.graphics.material;
 
+import fr.lunki.lwjgl.engine.graphics.components.specular.Specular;
+
 public class Material {
 
-    private float shininess = 0;
-    private float specular = 0;
     private boolean transparent = false;
     private boolean usingFakeLighting = false;
     private int atlasSize = 1;
+    private Specular specular;
     private Texture texture;
+    private Texture normalMap;
     private boolean created;
 
-    public Material(Texture texture) {
-        this.texture = texture;
-    }
-
-    public Material(int atlasSize, Texture texture) {
-        this.atlasSize = atlasSize;
-        this.texture = texture;
-    }
-
-    public Material(float shininess, float specular, Texture texture) {
-        this.shininess = shininess;
+    public Material(Specular specular,Texture texture,Texture normalMap,int atlasSize){
         this.specular = specular;
         this.texture = texture;
+        this.normalMap = normalMap;
+        this.atlasSize = atlasSize;
     }
 
-    public Material(float shininess, float specular, int atlasSize, Texture texture) {
-        this.shininess = shininess;
-        this.specular = specular;
-        this.atlasSize = atlasSize;
-        this.texture = texture;
+    public Material(Specular specular,Texture texture,Texture normalMap){
+        this(specular,texture,normalMap,1);
+    }
+
+    //TODO FIX TEXTURED ENTITIES RENDERED WITHOUT NORMAL MAP
+    public Material(Specular specular,Texture texture){
+        this(specular,texture,new FlatTexture(""),1);
+    }
+
+    public Material(Specular specular,Texture texture,int atlasSize){
+        this(specular,texture,new FlatTexture(""),1);
     }
 
     public int getAtlasSize() {
@@ -46,17 +46,23 @@ public class Material {
 
     public void create() {
         if (!created) {
+            if(normalMap!=null)this.normalMap.create();
             this.texture.create();
+            this.specular.create();
             created = true;
         }
 
     }
 
-    public float getShininess() {
-        return shininess;
+    public Texture getNormalMap() {
+        return normalMap;
     }
 
-    public float getSpecular() {
+    public boolean isCreated() {
+        return created;
+    }
+
+    public Specular getSpecular() {
         return specular;
     }
 

@@ -1,5 +1,6 @@
 package fr.lunki.lwjgl;
 
+import fr.lunki.lwjgl.engine.graphics.components.specular.ConstantSpecular;
 import fr.lunki.lwjgl.engine.graphics.material.FlatTexture;
 import fr.lunki.lwjgl.engine.graphics.material.Material;
 import fr.lunki.lwjgl.engine.graphics.meshes.TexturedMesh;
@@ -28,27 +29,26 @@ public class Main {
     public static void main(String[] args) {
 
         window.create();
-        renderer.create();
 
         //SETTING UP THE TEST SCENE
         TexturedMesh[] cart = FileModelLoader.readModelFile("CartEmbbed.fbx", "", aiProcess_Triangulate | aiProcess_FixInfacingNormals | aiProcess_JoinIdenticalVertices);
-        TexturedMesh windowmesh = new TexturedMesh(new Vector3f[]{
-                new Vector3f(1, -1, 0),
-                new Vector3f(-1, -1, 0),
-                new Vector3f(-1, 1, 0),
-                new Vector3f(1, 1, 0)
-        },
+        TexturedMesh windowmesh = new TexturedMesh(
+                new Vector3f[]{
+                        new Vector3f(1, -1, 0),
+                        new Vector3f(-1, -1, 0),
+                        new Vector3f(-1, 1, 0),
+                        new Vector3f(1, 1, 0)
+                },
                 new int[]{
                         0, 1, 2,
                         0, 2, 3
-                }, new Vector3f[]{
-                new Vector3f(0, 0, 1)
-        }, new Vector2f[]{
-                new Vector2f(1, 0),
-                new Vector2f(0, 0),
-                new Vector2f(0, 1),
-                new Vector2f(1, 1)
-        }, new Material(new FlatTexture("window.png")));
+                }, new Vector3f[]{new Vector3f(1, 1, 1)},
+                new Vector2f[]{
+                        new Vector2f(1, 0),
+                        new Vector2f(0, 0),
+                        new Vector2f(0, 1),
+                        new Vector2f(1, 1)
+                }, new Material(new ConstantSpecular(0),new FlatTexture("window.png")));
 
         windowmesh.getMaterial().setTransparent();
 
@@ -61,15 +61,17 @@ public class Main {
             }
         }
 
-
         scene.setSkyBox(new SkyBox(500, new String[]{"sky/right.png", "sky/left.png", "sky/top.png", "sky/bottom.png", "sky/back.png", "sky/front.png"}));
 
-        scene.setCamera(camera);
 
         setMainScene(scene);
 
-        //ENGINE LOOP
+        //Renderer must be created at the end to avoid problems with new InputStreamReader
+        renderer.create();
+        //Don't know why but the camera must be set after the renderer creation for the player to render
+        scene.setCamera(camera);
 
+        //ENGINE LOOP
         while (!window.shouldClose()) {
             window.update();
             camera.update();
@@ -80,7 +82,6 @@ public class Main {
         }
 
         //DESTROYING
-
         getMainScene().destroy();
         window.destroy();
         renderer.destroy();

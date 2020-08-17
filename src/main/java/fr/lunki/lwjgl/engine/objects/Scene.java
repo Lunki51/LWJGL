@@ -2,11 +2,9 @@ package fr.lunki.lwjgl.engine.objects;
 
 import fr.lunki.lwjgl.engine.graphics.gui.GuiTexture;
 import fr.lunki.lwjgl.engine.graphics.material.Material;
-import fr.lunki.lwjgl.engine.graphics.meshes.ColoredMesh;
 import fr.lunki.lwjgl.engine.graphics.meshes.NormalMesh;
 import fr.lunki.lwjgl.engine.graphics.meshes.RawMesh;
 import fr.lunki.lwjgl.engine.graphics.meshes.TexturedMesh;
-import fr.lunki.lwjgl.engine.objects.gameobjects.ColoredObject;
 import fr.lunki.lwjgl.engine.objects.gameobjects.GameObject;
 import fr.lunki.lwjgl.engine.objects.gameobjects.NormalObject;
 import fr.lunki.lwjgl.engine.objects.gameobjects.TexturedGameObject;
@@ -22,8 +20,6 @@ public class Scene {
     private Camera camera;
 
     HashMap<RawMesh, ArrayList<GameObject>> rawObjectsToRender;
-    HashMap<NormalMesh, ArrayList<NormalObject>> normalObjectsToRender;
-    HashMap<ColoredMesh, ArrayList<ColoredObject>> coloredObjectsToRender;
     HashMap<TexturedMesh, ArrayList<TexturedGameObject>> texturedObjectsToRender;
     HashMap<TexturedMesh, ArrayList<Terrain>> terrainsToRender;
     HashMap<Material, ArrayList<GuiTexture>> guisToRender;
@@ -32,8 +28,6 @@ public class Scene {
         this.lights = new ArrayList<>();
 
         rawObjectsToRender = new HashMap<>();
-        normalObjectsToRender = new HashMap<>();
-        coloredObjectsToRender = new HashMap<>();
         texturedObjectsToRender = new HashMap<>();
         terrainsToRender = new HashMap<>();
         guisToRender = new HashMap<>();
@@ -49,10 +43,6 @@ public class Scene {
         if (gameObject instanceof NormalObject) {
             if (gameObject instanceof TexturedGameObject) {
                 selectedMap = texturedObjectsToRender;
-            } else if (gameObject instanceof ColoredObject) {
-                selectedMap = coloredObjectsToRender;
-            } else {
-                selectedMap = normalObjectsToRender;
             }
         }
         if (selectedMap.containsKey(gameObject.getMesh())) {
@@ -99,13 +89,7 @@ public class Scene {
         for (RawMesh mesh : getRawObjectsToRender().keySet()) {
             mesh.destroy();
         }
-        for (NormalMesh mesh : getNormalObjectsToRender().keySet()) {
-            mesh.destroy();
-        }
         for (TexturedMesh mesh : getTexturedObjectsToRender().keySet()) {
-            mesh.destroy();
-        }
-        for (ColoredMesh mesh : getColoredObjectsToRender().keySet()) {
             mesh.destroy();
         }
         for (RawMesh mesh : getTerrainsToRender().keySet()) {
@@ -117,9 +101,7 @@ public class Scene {
 
         if (this.skyBox != null) this.skyBox.destroy();
         if (getRawObjectsToRender() != null) getRawObjectsToRender().clear();
-        if (getNormalObjectsToRender() != null) getNormalObjectsToRender().clear();
         if (getTexturedObjectsToRender() != null) getTexturedObjectsToRender().clear();
-        if (getColoredObjectsToRender() != null) getColoredObjectsToRender().clear();
         if (getTerrainsToRender() != null) getTerrainsToRender().clear();
         if (getGuisToRender() != null) getGuisToRender().clear();
     }
@@ -131,14 +113,6 @@ public class Scene {
 
     public HashMap<RawMesh, ArrayList<GameObject>> getRawObjectsToRender() {
         return rawObjectsToRender;
-    }
-
-    public HashMap<NormalMesh, ArrayList<NormalObject>> getNormalObjectsToRender() {
-        return normalObjectsToRender;
-    }
-
-    public HashMap<ColoredMesh, ArrayList<ColoredObject>> getColoredObjectsToRender() {
-        return coloredObjectsToRender;
     }
 
     public HashMap<TexturedMesh, ArrayList<TexturedGameObject>> getTexturedObjectsToRender() {
