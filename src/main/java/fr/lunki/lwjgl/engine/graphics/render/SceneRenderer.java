@@ -9,7 +9,7 @@ import fr.lunki.lwjgl.engine.graphics.render.environment.SkyBoxRenderer;
 import fr.lunki.lwjgl.engine.graphics.render.environment.TerrainRenderer;
 import fr.lunki.lwjgl.engine.graphics.render.player.GuiRenderer;
 import fr.lunki.lwjgl.engine.maths.Vector3f;
-import fr.lunki.lwjgl.engine.objects.Light;
+import fr.lunki.lwjgl.engine.objects.lights.Light;
 import fr.lunki.lwjgl.engine.objects.Scene;
 import fr.lunki.lwjgl.engine.objects.SkyBox;
 import fr.lunki.lwjgl.engine.objects.gameobjects.TexturedGameObject;
@@ -82,9 +82,8 @@ public class SceneRenderer extends Renderer<Scene> {
 
     }
 
-    //TODO Remake the lights calculation
-    //TODO Why TF are objects black
     public void renderLights(Camera camera, ArrayList<Light> lights) {
+        System.out.println("ONE STEP");
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         shader.bind();
         glActiveTexture(GL_TEXTURE0);
@@ -100,9 +99,9 @@ public class SceneRenderer extends Renderer<Scene> {
         glBindVertexArray(this.screenMesh.getVAO());
         glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, this.screenMesh.getIBO());
         glEnableVertexAttribArray(0);
-        for (int i = 0; i < lights.size(); i++) {
-            shader.setUniform("lights[" + i + "].Position", lights.get(i).getPosition());
-            shader.setUniform("lights[" + i + "].Color", lights.get(i).getColour());
+        for(int i=0;i<lights.size();i++){
+            System.out.println("SEND ONE LIGHT");
+            lights.get(i).setupLight(shader,i);
         }
         glDrawElements(GL_TRIANGLES, this.screenMesh.getIndices().length, GL_UNSIGNED_INT, 0);
 

@@ -27,7 +27,7 @@ public class Window {
     private double currentTime;
     private double mouseXDelta = 0, mouseYDelta = 0;
     private double mouseX, mouseY;
-    public final Vector3f BACKGROUND = new Vector3f(136, 164, 220);
+    public final Vector3f BACKGROUND = new Vector3f(255, 0, 0);
 
     public Window(int width, int height, String title) {
         this.width = width;

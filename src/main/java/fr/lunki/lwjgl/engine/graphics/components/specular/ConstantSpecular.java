@@ -23,6 +23,7 @@ public class ConstantSpecular extends Specular{
             buffer.put((byte) specular);
             buffer.put((byte) specular);
         }
+        buffer.flip();
         width = 2;
         height = 2;
         glBindTexture(GL_TEXTURE_2D, imageID);

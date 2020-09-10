@@ -7,7 +7,6 @@ import fr.lunki.lwjgl.engine.graphics.meshes.TexturedMesh;
 import fr.lunki.lwjgl.engine.graphics.render.MeshRenderer;
 import fr.lunki.lwjgl.engine.maths.Matrix4f;
 import fr.lunki.lwjgl.engine.maths.Vector3f;
-import fr.lunki.lwjgl.engine.objects.Light;
 import fr.lunki.lwjgl.engine.objects.player.Camera;
 import fr.lunki.lwjgl.engine.terrain.Terrain;
 import fr.lunki.lwjgl.engine.terrain.TerrainTextures;

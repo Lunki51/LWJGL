@@ -5,7 +5,6 @@ import fr.lunki.lwjgl.engine.graphics.meshes.RawMesh;
 import fr.lunki.lwjgl.engine.graphics.render.MeshRenderer;
 import fr.lunki.lwjgl.engine.io.Window;
 import fr.lunki.lwjgl.engine.maths.Vector3f;
-import fr.lunki.lwjgl.engine.objects.Light;
 import fr.lunki.lwjgl.engine.objects.gameobjects.GameObject;
 import fr.lunki.lwjgl.engine.objects.gameobjects.TexturedGameObject;
 import fr.lunki.lwjgl.engine.objects.player.Camera;

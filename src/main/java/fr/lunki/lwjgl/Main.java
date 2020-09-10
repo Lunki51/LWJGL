@@ -1,6 +1,7 @@
 package fr.lunki.lwjgl;
 
 import fr.lunki.lwjgl.engine.graphics.components.specular.ConstantSpecular;
+import fr.lunki.lwjgl.engine.graphics.components.specular.ImageSpecular;
 import fr.lunki.lwjgl.engine.graphics.material.FlatTexture;
 import fr.lunki.lwjgl.engine.graphics.material.Material;
 import fr.lunki.lwjgl.engine.graphics.meshes.TexturedMesh;
@@ -8,9 +9,13 @@ import fr.lunki.lwjgl.engine.graphics.render.SceneRenderer;
 import fr.lunki.lwjgl.engine.io.Window;
 import fr.lunki.lwjgl.engine.maths.Vector2f;
 import fr.lunki.lwjgl.engine.maths.Vector3f;
+import fr.lunki.lwjgl.engine.objects.lights.DirectionalLight;
+import fr.lunki.lwjgl.engine.objects.lights.Light;
 import fr.lunki.lwjgl.engine.objects.Scene;
 import fr.lunki.lwjgl.engine.objects.SkyBox;
 import fr.lunki.lwjgl.engine.objects.gameobjects.TexturedGameObject;
+import fr.lunki.lwjgl.engine.objects.lights.PointLights;
+import fr.lunki.lwjgl.engine.objects.lights.SpotLight;
 import fr.lunki.lwjgl.engine.objects.player.Camera;
 import fr.lunki.lwjgl.engine.objects.player.PlayerEntity;
 import fr.lunki.lwjgl.engine.utils.FileModelLoader;
@@ -55,14 +60,27 @@ public class Main {
 
         scene.addGameObject(new TexturedGameObject(new Vector3f(0, 1, 0), new Vector3f(0, 0, 0), new Vector3f(2, 2, 2), windowmesh));
         scene.addGameObject(new TexturedGameObject(new Vector3f(0, 1, -5), new Vector3f(0, 0, 0), new Vector3f(2, 2, 2), windowmesh));
+        TexturedGameObject[] carts = new TexturedGameObject[10];
         for (TexturedMesh mesh : cart) {
+            mesh.getMaterial().setNormalMap(new FlatTexture("cartnormal.png"));
+            mesh.getMaterial().setSpecular(new ImageSpecular("cartspecular2.png"));
             for (int i = 0; i < 10; i++) {
-                scene.addGameObject(new TexturedGameObject(new Vector3f((float) Math.random() * 20, 0, (float) Math.random() * 20), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), mesh));
+                carts[i] = (new TexturedGameObject(new Vector3f((float) Math.random() * 20, 0, (float) Math.random() * 20), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), mesh));
             }
+        }
+
+        for(TexturedGameObject object : carts){
+            scene.addGameObject(object);
         }
 
         scene.setSkyBox(new SkyBox(500, new String[]{"sky/right.png", "sky/left.png", "sky/top.png", "sky/bottom.png", "sky/back.png", "sky/front.png"}));
 
+        Light light = new PointLights(new Vector3f(0,5,0),new Vector3f(1,1,1));
+
+        TexturedGameObject object = new TexturedGameObject(new Vector3f(0,0,0),new Vector3f(0,0,0),new Vector3f(1,1,1),cart[0]);
+        scene.addGameObject(object);
+
+        scene.addLight(light);
 
         setMainScene(scene);
 
@@ -75,6 +93,8 @@ public class Main {
         while (!window.shouldClose()) {
             window.update();
             camera.update();
+            light.setPosition(camera.getPosition());
+            object.getRotation().add(0.0f,0.1f,0.0f);
 
             renderer.render(currentScene);
 

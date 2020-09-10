@@ -2,12 +2,12 @@ package fr.lunki.lwjgl.engine.objects;
 
 import fr.lunki.lwjgl.engine.graphics.gui.GuiTexture;
 import fr.lunki.lwjgl.engine.graphics.material.Material;
-import fr.lunki.lwjgl.engine.graphics.meshes.NormalMesh;
 import fr.lunki.lwjgl.engine.graphics.meshes.RawMesh;
 import fr.lunki.lwjgl.engine.graphics.meshes.TexturedMesh;
 import fr.lunki.lwjgl.engine.objects.gameobjects.GameObject;
 import fr.lunki.lwjgl.engine.objects.gameobjects.NormalObject;
 import fr.lunki.lwjgl.engine.objects.gameobjects.TexturedGameObject;
+import fr.lunki.lwjgl.engine.objects.lights.Light;
 import fr.lunki.lwjgl.engine.objects.player.Camera;
 import fr.lunki.lwjgl.engine.terrain.Terrain;
 
@@ -83,7 +83,7 @@ public class Scene {
     public void setCamera(Camera camera) {
         this.camera = camera;
         addGameObject(camera.getPlayerEntity());
-    }
+    } 
 
     public void destroy() {
         for (RawMesh mesh : getRawObjectsToRender().keySet()) {
