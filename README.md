@@ -1,2 +1,2 @@
 # LWJGL
-The clean code for my game engine
+The clean code for my game engine (OpenGL)
