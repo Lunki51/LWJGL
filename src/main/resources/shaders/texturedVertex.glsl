@@ -27,6 +27,6 @@ void main() {
 
     textureCoord=aTextureCoord;
 
-    gl_Position = projection * view * transform * vec4(position,1.0);
+    gl_Position = projection * view * worldPos;
 
 }

@@ -85,7 +85,7 @@ public class Material {
     public void setNormalMap(Texture normalMap) {
         if(this.normalMap!=null)this.normalMap.destroy();
         this.normalMap = normalMap;
-        normalMap.create();
+        if(this.normalMap!=null)normalMap.create();
     }
 
     public void setSpecular(Specular specular) {

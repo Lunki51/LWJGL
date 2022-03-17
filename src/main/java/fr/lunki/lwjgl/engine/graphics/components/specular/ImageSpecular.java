@@ -21,7 +21,7 @@ public class ImageSpecular extends Specular{
     @Override
     public void create() {
         try{
-            BufferedImage image = ImageIO.read(new File("res/texture/"+path));
+            BufferedImage image = ImageIO.read(new File("res/texture/" +path));
             imageID = glGenTextures();
             int[] texData = image.getRGB(0,0,image.getWidth(),image.getHeight(),null,0,image.getWidth());
             ByteBuffer buffer = BufferUtils.createByteBuffer(texData.length*4);
@@ -41,6 +41,7 @@ public class ImageSpecular extends Specular{
             System.out.println("LOADED TEXTURE "+path);
         }catch (IOException e){
             System.out.println("Impossible de lire la map specular "+path);
+            e.printStackTrace();
         }
     }
 }
